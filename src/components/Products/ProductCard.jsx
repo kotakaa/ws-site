@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ProductCard = (props) => {
-  const price = props.price.toLocaleString();
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -87,10 +86,10 @@ const ProductCard = (props) => {
       <CardContent className={classes.content}>
         <div onClick={() => dispatch(push('/product/'+ props.id))}>
         <Typography color="textSecondary" component="p">
-          {props.name}
+          {props.area}
         </Typography>
         <Typography component="p" className={classes.price}>
-          ￥{price}
+          {props.name}
         </Typography>
         </div>
         <IconButton className={classes.icon} onClick={handleClick}>

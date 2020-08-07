@@ -28,7 +28,7 @@ const ProductList = () => {
               id={product.id}
               name={product.name}
               images={product.images}
-              price={product.price}
+              area={product.area}
             />
           ))
         )}

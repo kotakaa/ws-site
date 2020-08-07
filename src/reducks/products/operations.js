@@ -22,19 +22,22 @@ export const fetchProducts = (gender, category) => {
   }
 }
 
-export const saveProduct = (id, name, description, category, gender, price, images, sizes) => {
+export const saveProduct = (id, images, name, description, address, url, type, style, number, price, area) => {
   return async (dispatch) => {
       const timestamp = FirebaseTimestamp.now();
 
       const data = {
-          category: category,
-          description: description,
-          gender: gender,
-          images: images,
-          name: name,
-          price: parseInt(price, 10),
-          sizes: sizes,
-          updated_at: timestamp
+        images: images,
+        name: name,
+        description: description,
+        address: address,
+        url: url,
+        type: type,
+        style: style,
+        number: number,
+        price: price,
+        area: area,
+        updated_at: timestamp
       }
 
       if (id === "") {

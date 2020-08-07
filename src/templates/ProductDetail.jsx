@@ -50,7 +50,6 @@ const ProductDetail = () => {
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
   const id = path.split('/product/')[1]
-  // 上の3行で現在のstateからidのみ取り出している
   const [product, setProduct] = useState(null);
   const dispatch = useDispatch()
 
