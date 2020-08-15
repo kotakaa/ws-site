@@ -23,8 +23,7 @@ export const addProductToFavorite = (addedProduct) => {
     const uid = getState().users.uid
     const favoriteRef = db.collection('users').doc(uid).collection('favorite').doc()
     addedProduct['favoriteId'] = favoriteRef.id
-    await favoriteRef.set(addedProduct)
-
+      await favoriteRef.set(addedProduct)
     dispatch(push('/favorite'))
   }
 }

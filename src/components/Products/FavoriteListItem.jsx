@@ -31,9 +31,9 @@ const FavoriteListItem = (props) => {
 
   const classes = useStyles()
   const image = props.product.images[0].path
-  const price = props.product.price.toLocaleString()
+  const description = props.product.description
   const name = props.product.name
-  const size = props.product.size
+  const address = props.product.address
 
   const removeProductFromFavorite = (id) => {
     
@@ -51,10 +51,10 @@ const FavoriteListItem = (props) => {
         <div className={classes.text}>
           <ListItemText 
             primary={name} 
-            secondary={"サイズ:" + size}
+            secondary={description}
           />
           <ListItemText 
-            primary={"¥" + price} 
+            primary={address} 
           />
         </div>
         <IconButton onClick={() => removeProductFromFavorite(props.product.favoriteId)}>

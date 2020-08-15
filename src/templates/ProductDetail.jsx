@@ -2,9 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { db, FirebaseTimestamp } from '../firebase/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import { ImageSwiper, SizeTable } from '../components/Products';
-import { addProductToCart, addProductToFavorite } from '../reducks/users/operations';
+import { ImageSwiper, FavoriteTable } from '../components/Products';
+import { addProductToFavorite } from '../reducks/users/operations';
 import HTMLReactParser from 'html-react-parser';
+import { push } from 'connected-react-router';
 
 const useStyle = makeStyles((theme) => ({
   sliderBox: {
@@ -31,9 +32,6 @@ const useStyle = makeStyles((theme) => ({
       height: 'auto',
       width: 400
     }
-  },
-  price: {
-    fontSize: 36
   }
 }))
 
@@ -61,36 +59,22 @@ const ProductDetail = () => {
       })
   },[])
 
-const addProduct = useCallback((selectedSize) => {
-  const timestamp = FirebaseTimestamp.now()
-  dispatch(addProductToCart({
-    added_at: timestamp,
-    description: product.description,
-    gender: product.gender,
-    images: product.images,
-    name: product.name,
-    price: product.price,
-    productId: product.id,
-    quantity: 1,
-    size: selectedSize
-  }))
-  
-},[product])
-
-const addFavorite = useCallback((selectedSize) => {
-  const timestamp = FirebaseTimestamp.now()
-  dispatch(addProductToFavorite({
-    added_at: timestamp,
-    description: product.description,
-    gender: product.gender,
-    images: product.images,
-    name: product.name,
-    price: product.price,
-    productId: product.id,
-    quantity: 1,
-    size: selectedSize
-  }))
-},[product])
+  const addFavorite = useCallback(() => {
+    const timestamp = FirebaseTimestamp.now()
+    const uid = selector.users.uid
+    const favorite = db.collection('users').doc(uid).collection('favorite').doc()
+    if (favorite.productId !== product.id) {
+    dispatch(addProductToFavorite({
+      added_at: timestamp,
+      name: product.name,
+      description: product.description,
+      address: product.address,
+      images: product.images,
+      url: product.url,
+      productId: product.id,
+    }))
+  } 
+  },[product])
 
   return(
     <section className="c-section-wrapin">
@@ -101,11 +85,10 @@ const addFavorite = useCallback((selectedSize) => {
           </div>
           <div className={classes.detail}>
             <h2 className="u-text__headline">{product.name}</h2>
-            <p className={classes.price}>{product.price.toLocaleString()}</p>
-            <div className="module-spacer--small"/>
-            <SizeTable addProduct={ addProduct } addFavorite={ addFavorite } sizes={ product.sizes } />
-            <div className="module-spacer--small"/>
             <p>{returnCodeToBr(product.description)}</p>
+            <p>{product.url}</p>
+            <p>{product.address}</p>
+            <FavoriteTable addFavorite={addFavorite} />
           </div>
         </div>
       )}
