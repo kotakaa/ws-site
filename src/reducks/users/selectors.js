@@ -7,21 +7,10 @@ export const getIsSinedIn = createSelector(
   state => state.isSignedIn
 )
 
-export const getProductsInCart = createSelector(
-  [usersSelector],
-  state => state.cart
-)
-
 export const getProductsInFavorite = createSelector(
   [usersSelector],
   state => state.favorite
 )
-
-export const getOrdersHistory = createSelector(
-  [usersSelector],
-  state => state.orders
-)
-
 
 export const getUserId = createSelector(
   [usersSelector],
@@ -31,4 +20,9 @@ export const getUserId = createSelector(
 export const getUsername = createSelector(
   [usersSelector],
   state => state.username
+)
+
+export const getRole = createSelector(
+  [usersSelector],
+  state => state.role
 )

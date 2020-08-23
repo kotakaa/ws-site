@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import { TextInput, PrimaryButton } from '../components/UIkit';
-import { signUp } from '../reducks/users/operations';
+import { adminSignUp } from '../reducks/users/operations';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import Grid from '@material-ui/core/Grid';
@@ -9,7 +9,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import HttpsIcon from '@material-ui/icons/Https';
 import { Divider } from '@material-ui/core';
 
-const SignUp = () => {
+const AdminSignUp = () => {
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState(""),
@@ -49,7 +49,7 @@ const SignUp = () => {
           <TextInput 
             id="input-with-icon-grid" 
             fullWidth={ true }
-            label={ "ユーザー名" }
+            label={ "会社名" }
             multiline={ false }
             rows={ 1 }
             value={ username }
@@ -116,7 +116,7 @@ const SignUp = () => {
         <div className="center">
           <PrimaryButton 
             label={ "Sign up" }
-            onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
+            onClick={() => dispatch(adminSignUp(username, email, password, confirmPassword))}
           />
           <div className="module-spacer--medium" />
           <p  className="c-cursor"
@@ -127,4 +127,4 @@ const SignUp = () => {
   )  
 }
 
-export default SignUp;
+export default AdminSignUp;

@@ -9,11 +9,10 @@ import { ImageArea } from '../components/Products';
 const ProductEdit = () => {
   const dispatch = useDispatch();
 
-  let id = window.location.pathname.split('/product/edit')[1];
-  if (id !== "") {
-    id = id.split('/')[1]
-
-  }
+  let id = window.location.pathname.split('/hall/edit')[1];
+    if (id !== "" && typeof id !== 'undefined') {
+      id = id.split('/')[1]
+    }
 
   const [images, setImages] = useState([]),
         [name, setName] = useState(""),
@@ -88,7 +87,7 @@ const ProductEdit = () => {
   ]
 
   useEffect(() => {
-    if (id !== "") {
+    if (id !== "" && typeof id !== 'undefined') {
       db.collection('products').doc(id).get()
         .then(snapshot => {
           const data = snapshot.data();
@@ -107,7 +106,7 @@ const ProductEdit = () => {
   },[id]);
 
   return(
-    <section>
+    <section className="main">
       <h2 className="u-text__headline u-text-center">式場の登録・編集</h2>
       <div className="c-section-container">
         <ImageArea images={ images } setImages={ setImages }/>
@@ -202,4 +201,4 @@ const ProductEdit = () => {
 }
 
 
-export default ProductEdit
+export default ProductEdit;

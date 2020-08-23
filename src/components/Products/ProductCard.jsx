@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ProductCard = (props) => {
+  const price = props.price;
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -86,10 +87,10 @@ const ProductCard = (props) => {
       <CardContent className={classes.content}>
         <div onClick={() => dispatch(push('/product/'+ props.id))}>
         <Typography color="textSecondary" component="p">
-          {props.area}
+          {props.name}
         </Typography>
         <Typography component="p" className={classes.price}>
-          {props.name}
+          {price}
         </Typography>
         </div>
         <IconButton className={classes.icon} onClick={handleClick}>

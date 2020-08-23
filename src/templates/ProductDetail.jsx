@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/styles';
 import { ImageSwiper, FavoriteTable } from '../components/Products';
 import { addProductToFavorite } from '../reducks/users/operations';
 import HTMLReactParser from 'html-react-parser';
-import { push } from 'connected-react-router';
 
 const useStyle = makeStyles((theme) => ({
   sliderBox: {
@@ -96,4 +95,4 @@ const ProductDetail = () => {
   )
 }
 
-export default ProductDetail
+export default ProductDetail;

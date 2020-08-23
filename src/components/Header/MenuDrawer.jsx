@@ -52,22 +52,21 @@ const MenuDrawer = (props) => {
   }
 
   const [filters, setFilters] = useState([
-    { func: selectMenu, label: "全て", id: "all", value: "/"},
-    { func: selectMenu, label: "メンズ", id: "man", value: "/?gender=man"},
-    { func: selectMenu, label: "レディース", id: "woman", value: "/?gender=woman"},
+    { func: selectMenu, label: "専門式場", id: "ceremony", value: "/?type=ceremony"},
+    { func: selectMenu, label: "ホテル", id: "hotel", value: "/?type=hotel"},
+    { func: selectMenu, label: "ゲストハウス", id: "guesthouse", value: "/?type=guesthouse"},
+    { func: selectMenu, label: "神社", id: "shrine", value: "/?type=shrine"},
+    { func: selectMenu, label: "教会", id: "church", value: "/?type=church"},
+    { func: selectMenu, label: "レストラン", id: "restaurant", value: "/?type=restaurant"},
+    { func: selectMenu, label: "その他", id: "church", value: "/?type=other"},
   ])
+
   const menus = [
     { func: selectMenu, 
       label: "商品登録",
       icon: <AddCircleIcon />,
       id: "register",
       value: "/product/edit"
-    },
-    { func: selectMenu, 
-      label: "注文履歴",
-      icon: <HistoryIcon />,
-      id: "history",
-      value: "/order/history"
     },
     { func: selectMenu, 
       label: "プロフィール",
@@ -124,6 +123,7 @@ const MenuDrawer = (props) => {
             <SearchIcon />
           </IconButton>
         </div>
+        <div className="module-spacer--extra-small" />
         <Divider />
         <List>
           { menus.map(menu => (

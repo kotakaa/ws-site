@@ -12,10 +12,32 @@
   height: 32px
 }
 
+/*********** background ***********/
+.back-ground-main {
+  background-image: url(./img/src/wedding-1.jpeg);
+  min-height: 790px;
+  background-size:  cover;
+}
+.back-ground-top {
+  background-image: url(./img/src/wedding-2.jpg);
+  height: 100vh;
+  width: 100%;
+  background-size:  cover;
+}
+
 /*********** Section ***********/
 .c-main {
-  padding: 96px 0
+  margin-top: 60px;
 }
+.c-margin-left {
+  margin-left: 8px;
+  display: inline-block;
+}
+
+.main {
+  margin-top: 80px;
+}
+
 .c-section-wrapin {
   margin: 0 auto;
   max-width: 575px;
@@ -31,6 +53,25 @@
   padding: 1rem;
   height: auto;
   width: calc(100% - 2rem);
+}
+
+.c-cursor {
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.c-section-toppage {
+  padding: 40px;
+  display: inline-block;
+  margin: 250px 0 0 100px;
+}
+
+.c-section-main {
+  background-color: rgba(255, 255, 255, 0.815);
+  max-width: 400px;
+  padding: 40px;
+  display: inline-block;
+  margin: 90px 0 0 90px;
 }
 
 .c-section__loading {

@@ -26,20 +26,22 @@ const FavoriteList = () => {
   },[])
   return(
     <section className="c-section-wrapin">
-      <h2 className="u-text__headline">
-        お気に入りリスト
-      </h2>
-      <List className={classes.root}>
-        { productInFavorite.length > 0 && (
-          productInFavorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
-        ) }
-      </List>
-      <div className="module-spacer--medium" />
-      <div className="p-grid__column">
-        <GrayButton
-          label={"ショッピングを続ける"}
-          onClick={ backToHome }
-        />
+      <div className="main">
+        <h2 className="u-text__headline">
+          お気に入りリスト
+        </h2>
+        <List className={classes.root}>
+          { productInFavorite.length > 0 && (
+            productInFavorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
+          ) }
+        </List>
+        <div className="module-spacer--medium" />
+        <div className="p-grid__column">
+          <GrayButton
+            label={"他の式場も見てみる"}
+            onClick={ backToHome }
+          />
+        </div>
       </div>
     </section>
   )

@@ -26,15 +26,6 @@ export const signOutAction = () => {
   }
 };
 
-export const FETCH_PRODUCTS_IN_CART = "FETCH_PRODUCTS_IN_CART";
-
-export const fetchProductsInCartAction = (products) => {
-  return {
-    type: "FETCH_PRODUCTS_IN_CART",
-    payload: products
-  }
-};
-
 export const FETCH_PRODUCTS_IN_FAVORITE = "FETCH_PRODUCTS_IN_FAVORITE";
 
 export const fetchProductsInFavoriteAction = (products) => {

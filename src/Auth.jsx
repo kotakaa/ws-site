@@ -13,7 +13,7 @@ const Auth = ({ children }) => {
       dispatch(listenAuthState())
     }
   },[])
-
+  
   if (!isSinedIn) {
     return <></>
   } else {
