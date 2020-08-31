@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router';
-import { SignIn, ProductList, SignUp, Reset, ProductEdit, ProductDetail, FavoriteList, AdminSignUp, AdminTopPage, TopPage, MyPage} from './templates';
+import { SignIn, ProductList, SignUp, Reset, ProductEdit, ProductDetail, FavoriteList, AdminSignUp, AdminTopPage, TopPage, MyPage, Search} from './templates';
 import Auth from './Auth';
 import { getRole } from './reducks/users/selectors';
 
@@ -30,6 +30,7 @@ const Router = () => {
         <Route exact path={"/product/:id"} component={ProductDetail} />
         <Route path={"/product/edit(/:id)?"} component={ProductEdit} />
         <Route path={"/favorite"} component={FavoriteList} />
+        <Route exact path={"/search/:keyword"} component={Search} />
       </Auth>
     </Switch>
   )

@@ -9,7 +9,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import HistoryIcon from '@material-ui/icons/History';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {push} from "connected-react-router";
@@ -41,25 +40,23 @@ const MenuDrawer = (props) => {
   const dispatch = useDispatch()
   const {container} = props
   const [keyword, setKeyword] = useState("");
+  const [filters, setFilters] = useState([]);
 
   const inputKeyword = useCallback((event) => {
     setKeyword(event.target.value)
   }, [setKeyword])
+
+  const handleKeyDown = (event) =>{
+    if (event.keyCode === 13) {
+      dispatch(push("/search/" + keyword))
+    }
+  }
 
   const selectMenu = (event, path) => {
     dispatch(push(path))
     props.onClose(event)
   }
 
-  const [filters, setFilters] = useState([
-    { func: selectMenu, label: "専門式場", id: "ceremony", value: "/?type=ceremony"},
-    { func: selectMenu, label: "ホテル", id: "hotel", value: "/?type=hotel"},
-    { func: selectMenu, label: "ゲストハウス", id: "guesthouse", value: "/?type=guesthouse"},
-    { func: selectMenu, label: "神社", id: "shrine", value: "/?type=shrine"},
-    { func: selectMenu, label: "教会", id: "church", value: "/?type=church"},
-    { func: selectMenu, label: "レストラン", id: "restaurant", value: "/?type=restaurant"},
-    { func: selectMenu, label: "その他", id: "church", value: "/?type=other"},
-  ])
 
   const menus = [
     { func: selectMenu, 
@@ -77,20 +74,34 @@ const MenuDrawer = (props) => {
   ]
 
   useEffect(() => {
-    db.collection('categories').orderBy('order', 'asc').get()
+    db.collection('styles').orderBy('order', 'asc').get()
       .then(snapshots => {
         const list = [];
         snapshots.forEach(snapshot => {
-          const category = snapshot.data()
+          const style = snapshot.data()
           list.push(
             { func: selectMenu,
-              label: category.name,
-              id: category.id,
-              value: `/?category=${category.id}`}
+              label: style.name,
+              id: style.id,
+              value: `product/?style=${style.id}`}
           )
         })
         setFilters(prevState => [...prevState, ...list])
       })
+    db.collection('types').orderBy('order', 'asc').get()
+    .then(snapshots => {
+      const list = [];
+      snapshots.forEach(snapshot => {
+        const type = snapshot.data()
+        list.push(
+          { func: selectMenu,
+            label: type.name,
+            id: type.id,
+            value: `product/?type=${type.id}`}
+        )
+      })
+      setFilters(prevState => [...prevState, ...list])
+    })
   },[])
 
   return(
@@ -109,19 +120,25 @@ const MenuDrawer = (props) => {
         onKeyDown={(event) => props.onClose(event)}
       >
         <div className={classes.searchField}>
-          <TextInput 
-            fullWidth={ false }
-            label={ "キーワードを入力" }
-            multiline={ false }
-            rows={ 1 }
-            value={ keyword }
-            type={ "text" }
-            required={ false }
-            onChange={ inputKeyword }
-          />
-          <IconButton>
-            <SearchIcon />
-          </IconButton>
+          <form>
+            <TextInput 
+              fullWidth={ false }
+              label={ "キーワードを入力" }
+              multiline={ false }
+              rows={ 1 }
+              value={ keyword }
+              type={ "text" }
+              required={ true }
+              onChange={ inputKeyword }
+              onKeyDown={(event) => handleKeyDown(event)}
+              />
+            <IconButton>
+              <SearchIcon 
+                onKeyDown={(event) => handleKeyDown(event)}
+                onClick={() => dispatch(push("/search/" + keyword))}
+                />
+            </IconButton>
+          </form>
         </div>
         <div className="module-spacer--extra-small" />
         <Divider />

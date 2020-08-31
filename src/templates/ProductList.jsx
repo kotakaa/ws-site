@@ -12,10 +12,10 @@ const ProductList = () => {
   
   const query = selector.router.location.search;
   const type = /^\?type=/.test(query) ? query.split('?type=')[1] : "";
-  const category = /^\?category=/.test(query) ? query.split('?category=')[1] : "";
+  const style = /^\?style=/.test(query) ? query.split('?style=')[1] : "";
 
   useEffect(() => {
-    dispatch(fetchProducts(type, category))
+    dispatch(fetchProducts(type, style))
   },[query]);
 
   return(

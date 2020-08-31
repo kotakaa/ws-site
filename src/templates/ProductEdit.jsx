@@ -20,7 +20,9 @@ const ProductEdit = () => {
         [address, setAddress] = useState(""),
         [url, setUrl] = useState(""),
         [type, setType] = useState(""),
+        [types, setTypes] = useState([]),
         [style, setStyle] = useState(""),
+        [styles, setStyles] = useState([]),
         [number, setNumber] = useState(""),
         [price, setPrice] = useState(""),
         [area, setArea] = useState("");
@@ -40,23 +42,6 @@ const ProductEdit = () => {
   const inputUrl = useCallback((event) => {
     setUrl(event.target.value)
   }, [setUrl])
-
-  const types = [
-    {id: "ceremony", name: "専門式場"},
-    {id: "hotel", name: "ホテル"},
-    {id: "guesthouse", name: "ゲストハウス"},
-    {id: "shrine", name: "神社"},
-    {id: "church", name: "教会"},
-    {id: "restaurant", name: "レストラン"},
-    {id: "other", name: "その他"},
-  ]
-
-  const styles = [
-    {id: "churchceremony", name: "教会式"},
-    {id: "publicceremony", name: "人前式"},
-    {id: "deityceremony", name: "神前式"},
-    {id: "buddhistCeremony", name: "仏前式"},
-  ]
 
   const numbers = [
     {id: "twenty", name: "20"},
@@ -85,6 +70,33 @@ const ProductEdit = () => {
     {id: "chugokuRegion", name: "中国地方"},
     {id: "kyusyuRegion", name: "九州地方"},
   ]
+
+  useEffect(() => {
+    db.collection('styles').orderBy('order', 'asc').get()
+      .then(snapshots => {
+        const list = [];
+        snapshots.forEach(snapshot => {
+          const data = snapshot.data()
+          list.push({
+            id: data.id,
+            name: data.name
+          })
+        })
+        setStyles(list)
+      })
+    db.collection('types').orderBy('order', 'asc').get()
+    .then(snapshots => {
+      const list = [];
+      snapshots.forEach(snapshot => {
+        const data = snapshot.data()
+        list.push({
+          id: data.id,
+          name: data.name
+        })
+      })
+      setTypes(list)
+    })
+  },[])
 
   useEffect(() => {
     if (id !== "" && typeof id !== 'undefined') {
