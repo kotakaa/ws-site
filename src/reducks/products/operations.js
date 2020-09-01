@@ -1,8 +1,21 @@
 import { push } from 'connected-react-router';
 import { db, FirebaseTimestamp } from '../../firebase/index';
-import { fetchProductsAction, deleteProductsAction } from './actions';
+import { fetchProductsAction, deleteProductsAction, getProductsAction } from './actions';
 
 const productsRef = db.collection('products')
+
+export const getProduct = (searchWord) => {
+  return async (dispatch) => {
+    const searchedData = productsRef.orderBy("name").startAt(searchWord).endAt(searchWord + '\uf8ff');
+    const snapshot = await searchedData.get();
+    const tenporaryData = [];
+
+    snapshot.docs.map(doc => {
+      tenporaryData.push(doc.data());
+    })
+    dispatch(getProductsAction(tenporaryData))
+  }
+}
 
 export const fetchProducts = (type, style) => {
   return async (dispatch) => {

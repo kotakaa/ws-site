@@ -1,4 +1,12 @@
 
+export const GET_PRODUCTS = "GET_PRODUCTS";
+export const getProductsAction = (products) => {
+    return {
+        type: "GET_PRODUCTS",
+        payload: products
+    }
+}
+
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
 export const fetchProductsAction = (products) => {
     return {

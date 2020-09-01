@@ -16,6 +16,8 @@ import {useDispatch} from "react-redux";
 import {signOut} from "../../reducks/users/operations";
 import {TextInput} from "../UIkit";
 import { db } from "../../firebase/index";
+import { getProduct } from '../../reducks/products/operations';
+
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -45,12 +47,6 @@ const MenuDrawer = (props) => {
   const inputKeyword = useCallback((event) => {
     setKeyword(event.target.value)
   }, [setKeyword])
-
-  const handleKeyDown = (event) =>{
-    if (event.keyCode === 13) {
-      dispatch(push("/search/" + keyword))
-    }
-  }
 
   const selectMenu = (event, path) => {
     dispatch(push(path))
@@ -83,7 +79,7 @@ const MenuDrawer = (props) => {
             { func: selectMenu,
               label: style.name,
               id: style.id,
-              value: `product/?style=${style.id}`}
+              value: `?style=${style.id}`}
           )
         })
         setFilters(prevState => [...prevState, ...list])
@@ -97,7 +93,7 @@ const MenuDrawer = (props) => {
           { func: selectMenu,
             label: type.name,
             id: type.id,
-            value: `product/?type=${type.id}`}
+            value: `?type=${type.id}`}
         )
       })
       setFilters(prevState => [...prevState, ...list])
@@ -130,12 +126,10 @@ const MenuDrawer = (props) => {
               type={ "text" }
               required={ true }
               onChange={ inputKeyword }
-              onKeyDown={(event) => handleKeyDown(event)}
               />
             <IconButton>
               <SearchIcon 
-                onKeyDown={(event) => handleKeyDown(event)}
-                onClick={() => dispatch(push("/search/" + keyword))}
+                onClick={() => dispatch(getProduct(keyword))}
                 />
             </IconButton>
           </form>
