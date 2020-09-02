@@ -16,8 +16,8 @@ import { deleteProducts } from "../../reducks/products/operations";
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.down('sm')]: {
-      margin: 8,
-      width: 'calc(50% - 12px)'
+      margin: '20px auto',
+      width: 'calc(95% - 12px)'
     },
     [theme.breakpoints.up('sm')]: {
       margin: 16,

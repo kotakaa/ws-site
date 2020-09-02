@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     display: 'flex',
     marginLeft: 32
+  },
+  search: {
+    marginTop: 18
   }
 }))
 
@@ -116,23 +119,21 @@ const MenuDrawer = (props) => {
         onKeyDown={(event) => props.onClose(event)}
       >
         <div className={classes.searchField}>
-          <form>
-            <TextInput 
-              fullWidth={ false }
-              label={ "キーワードを入力" }
-              multiline={ false }
-              rows={ 1 }
-              value={ keyword }
-              type={ "text" }
-              required={ true }
-              onChange={ inputKeyword }
+          <TextInput 
+            fullWidth={ false }
+            label={ "キーワードを入力" }
+            multiline={ false }
+            rows={ 1 }
+            value={ keyword }
+            type={ "text" }
+            required={ true }
+            onChange={ inputKeyword }
+            />
+          <IconButton className={classes.search}>
+            <SearchIcon 
+              onClick={() => dispatch(getProduct(keyword))}
               />
-            <IconButton>
-              <SearchIcon 
-                onClick={() => dispatch(getProduct(keyword))}
-                />
-            </IconButton>
-          </form>
+          </IconButton>
         </div>
         <div className="module-spacer--extra-small" />
         <Divider />
