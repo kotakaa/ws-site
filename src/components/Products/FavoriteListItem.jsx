@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -7,8 +7,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { getUserId } from '../../reducks/users/selectors';
 import { makeStyles } from '@material-ui/styles';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { db } from '../../firebase/index';
+import { PrimaryButton } from '../UIkit';
+import { push } from 'connected-react-router';
 
 const useStyles = makeStyles({
   list: {
@@ -28,19 +30,24 @@ const useStyles = makeStyles({
 const FavoriteListItem = (props) => {
   const selector = useSelector((state) => state)
   const uid = getUserId(selector)
+  const dispatch = useDispatch();
 
   const classes = useStyles()
   const image = props.product.images[0].path
   const description = props.product.description
   const name = props.product.name
   const address = props.product.address
+  const id = props.product.productId
 
-  const removeProductFromFavorite = (id) => {
-    
+  const removeProductFromFavorite = (favoriteId) => {
     return  db.collection('users').doc(uid)
-              .collection('favorite').doc(id)
+              .collection('favorite').doc(favoriteId)
               .delete()
   }
+
+  const goToProductDetail = useCallback((id) => {
+    dispatch(push('/product/' + id))
+  },[])
 
   return(
     <>
@@ -57,6 +64,10 @@ const FavoriteListItem = (props) => {
             primary={address} 
           />
         </div>
+        <PrimaryButton 
+          label={"詳細"} 
+          onClick={() => goToProductDetail(id)}
+        />
         <IconButton onClick={() => removeProductFromFavorite(props.product.favoriteId)}>
           <DeleteIcon />
         </IconButton>

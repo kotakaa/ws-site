@@ -22,7 +22,7 @@ const FavoriteList = () => {
   const productInFavorite = getProductsInFavorite(selector)
 
   const backToHome = useCallback(() => {
-    dispatch(push('/'))
+    dispatch(push('/product'))
   },[])
   return(
     <section className="c-section-wrapin">

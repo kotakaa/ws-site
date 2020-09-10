@@ -62,7 +62,7 @@ export const saveProduct = (id, images, name, description, address, url, type, s
 
       return productsRef.doc(id).set(data, {merge: true})
           .then(() => {
-              dispatch(push('/'))
+              dispatch(push('/product'))
           }).catch((error) => {
               throw new Error(error)
           })

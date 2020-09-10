@@ -6,7 +6,7 @@ import { db } from '../firebase/index';
 import { ImageArea } from '../components/Products';
 
 
-const ProductEdit = () => {
+const CostEdit = () => {
   const dispatch = useDispatch();
 
   let id = window.location.pathname.split('/product/edit')[1];
@@ -119,7 +119,7 @@ const ProductEdit = () => {
 
   return(
     <section className="main">
-      <h2 className="u-text__headline u-text-center">式場の登録・編集</h2>
+      <h2 className="u-text__headline u-text-center">費用の登録・編集</h2>
       <div className="c-section-container">
         <ImageArea images={ images } setImages={ setImages }/>
         <TextInput 
@@ -213,4 +213,4 @@ const ProductEdit = () => {
 }
 
 
-export default ProductEdit;
+export default CostEdit;

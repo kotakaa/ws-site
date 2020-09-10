@@ -38,6 +38,15 @@
   margin-top: 80px;
 }
 
+.c-section-detail {
+  margin: 110px auto 0;
+  max-width: 575px;
+  position: relative;
+  padding: 0 1rem;
+  text-align: center;
+  width: 100%;
+}
+
 .c-section-wrapin {
   margin: 0 auto;
   max-width: 575px;
@@ -201,7 +210,7 @@
   }
 
   /*********** Section ***********/
-  .c-section-wrapin {
+  .c-section-wrapin, .c-section-detail{
       max-width: 1024px;
   }
 }

@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { ImageSwiper, FavoriteTable } from '../components/Products';
 import { addProductToFavorite } from '../reducks/users/operations';
 import HTMLReactParser from 'html-react-parser';
+import { getProductsInFavorite } from '../reducks/users/selectors';
 
 const useStyle = makeStyles((theme) => ({
   sliderBox: {
@@ -60,23 +61,41 @@ const ProductDetail = () => {
 
   const addFavorite = useCallback(() => {
     const timestamp = FirebaseTimestamp.now()
-    const uid = selector.users.uid
-    const favorite = db.collection('users').doc(uid).collection('favorite').doc()
-    if (favorite.productId !== product.id) {
-    dispatch(addProductToFavorite({
-      added_at: timestamp,
-      name: product.name,
-      description: product.description,
-      address: product.address,
-      images: product.images,
-      url: product.url,
-      productId: product.id,
-    }))
-  } 
+    const productInFavorite = getProductsInFavorite(selector)
+
+    productInFavorite.map( p => {
+        if (p.productId === product.id) {
+          return false
+        }else{
+          dispatch(addProductToFavorite({
+            added_at: timestamp,
+            name: product.name,
+            description: product.description,
+            address: product.address,
+            images: product.images,
+            url: product.url,
+            productId: product.id,
+            favorited: true
+          }))
+        }
+    })
+    if (productInFavorite.length === 0) {
+      dispatch(addProductToFavorite({
+        added_at: timestamp,
+        name: product.name,
+        description: product.description,
+        address: product.address,
+        images: product.images,
+        url: product.url,
+        productId: product.id,
+        favorited: true
+      }))
+    }
   },[product])
 
+
   return(
-    <section className="c-section-wrapin">
+    <section className="c-section-detail">
       { product && (
         <div className="p-grid__row">
           <div className={classes.sliderBox}>
@@ -87,7 +106,10 @@ const ProductDetail = () => {
             <p>{returnCodeToBr(product.description)}</p>
             <p>{product.url}</p>
             <p>{product.address}</p>
-            <FavoriteTable addFavorite={addFavorite} />
+            <FavoriteTable 
+              addFavorite={addFavorite}
+              product={product}
+              />
           </div>
         </div>
       )}
