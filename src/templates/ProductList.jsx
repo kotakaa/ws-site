@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../reducks/products/operations';
 import { getProducts } from '../reducks/products/selectors';
 import Pagination from "material-ui-flat-pagination";
-// import Pagination from '@material-ui/lab/Pagination';
 
 
 const ProductList = () => {
@@ -29,13 +28,13 @@ const ProductList = () => {
   const currentList = products.slice(offset, offset + parPage);
   const renderProducts = currentList.map((product) => {
     return (
-      <ProductCard
-        key={product.id}
-        id={product.id}
-        name={product.name}
-        images={product.images}
-        area={product.area}
-      />
+        <ProductCard
+          key={product.id}
+          id={product.id}
+          name={product.name}
+          images={product.images}
+          area={product.area}
+        />
     )
   });
 

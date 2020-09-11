@@ -12,6 +12,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import NoImage from "../../assets/img/src/no_image.png";
 import { push } from "connected-react-router";
 import { deleteProducts } from "../../reducks/products/operations";
+import LazyLoad from 'react-lazyload'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,12 +79,14 @@ const ProductCard = (props) => {
   const images = (props.images.length > 0) ? props.images : [NoImage];
   return(
     <Card className={classes.root}>
+      <LazyLoad height="656" width="233" once>
       <CardMedia 
         className={classes.media}
         image={images[0].path}
         title=""
         onClick={() => dispatch(push('/product/'+ props.id))}
       />
+      </LazyLoad>
       <CardContent className={classes.content}>
         <div onClick={() => dispatch(push('/product/'+ props.id))}>
         <Typography color="textSecondary" component="p">
