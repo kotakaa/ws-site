@@ -119,8 +119,8 @@ const AdminSignUp = () => {
             onClick={() => dispatch(adminSignUp(username, email, password, confirmPassword))}
           />
           <div className="module-spacer--medium" />
-          <p  className="c-cursor"
-              onClick={() => dispatch(push("/signin"))}>アカウントをすでにお持ちの方はこちら</p>
+          <div  className="c-cursor"
+              onClick={() => dispatch(push("/signin"))}>アカウントをすでにお持ちの方はこちら</div>
         </div>
       </div>
       </div>

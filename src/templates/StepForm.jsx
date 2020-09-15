@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import WeddingDetail from '../components/Cost/WeddingDetail';
 import BanquetDetail from '../components/Cost/BanquetDetail';
+import FixedCost from '../components/Cost/FixedCost';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,21 +23,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['挙式の詳細', '披露宴の詳細', '費用チェックの結果'];
+  return ['挙式の詳細', '披露宴の詳細', '固定でかかる費用'];
 }
 
-function getStepContent(stepIndex) {
-  switch (stepIndex) {
-    case 0:
-      return <WeddingDetail/>;
-    case 1:
-      return <BanquetDetail />;
-    case 2:
-      return '結果は100万円です';
-    default:
-      return 'Unknown stepIndex';
-  }
-}
+
 
 const StepForm = () => {
   const classes = useStyles();
@@ -55,6 +45,59 @@ const StepForm = () => {
     setActiveStep(0);
   };
 
+  const [value, setValue] = useState('yes'),
+        [dress, setDress] = useState(""),
+        [snap, setSnap] = useState(""),
+        [movie, setMovie] = useState(""),
+        [bouquet, setBouquet] = useState(""),
+        [makeAndDressing, setMakeAndDressing] = useState(""),
+        
+        [dish, setDish] = useState(""),
+        [cake, setCake] = useState(""),
+        [flowerDecoration, setFlowerDecoration] = useState(""),
+        [staging, setStaging] = useState(""),
+        [gift, setGift] = useState("");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  function getStepContent(stepIndex) {
+    switch (stepIndex) {
+      case 0:
+        return <WeddingDetail
+                  dress = {dress}
+                  snap={snap}
+                  movie={movie}
+                  bouquet={bouquet}
+                  makeAndDressing={makeAndDressing}
+                  setDress={setDress}
+                  setSnap={setSnap}
+                  setMovie={setMovie}
+                  setBouquet={setBouquet}
+                  setMakeAndDressing={setMakeAndDressing}
+                />;
+      case 1:
+        return <BanquetDetail
+                  value={value}
+                  dish={dish}
+                  cake={cake}
+                  flowerDecoration={flowerDecoration}
+                  staging={staging}
+                  gift={gift}
+                  setDish={setDish}
+                  setCake={setCake}
+                  setFlowerDecoration={setFlowerDecoration}
+                  setStaging={setStaging}
+                  setGift={setGift}
+                  handleChange={handleChange}
+                />;
+      case 2:
+        return <FixedCost />;
+      default:
+        return 'Unknown stepIndex';
+    }
+  }
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} alternativeLabel>
@@ -67,22 +110,23 @@ const StepForm = () => {
       <div>
         {activeStep === steps.length ? (
           <div>
-            <Typography className={classes.instructions}>All steps completed</Typography>
-            <Button onClick={handleReset}>Reset</Button>
+            <Typography className={classes.instructions}>結果は100万円です</Typography>
+            <Button onClick={handleReset}>最初に戻る</Button>
+            <Button variant="contained" color="primary">保存する</Button>
           </div>
         ) : (
           <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+            <div className={classes.instructions}>{getStepContent(activeStep)}</div>
             <div className="center">
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 className={classes.backButton}
               >
-                Back
+                戻る
               </Button>
               <Button variant="contained" color="primary" onClick={handleNext}>
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                {activeStep === steps.length - 1 ? '費用をチェックする' : '次に進む'}
               </Button>
             </div>
           </div>

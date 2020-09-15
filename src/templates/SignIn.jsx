@@ -71,10 +71,10 @@ const SignIn = () => {
             onClick={() => dispatch(signIn(email, password))}
           />
           <div className="module-spacer--medium" />
-          <p  className="c-cursor"
-              onClick={() => dispatch(push("/signup"))}>アカウントをお持ちでない方はこちら</p>
-          <p  className="c-cursor"
-              onClick={() => dispatch(push("/signin/reset"))}>パスワードを忘れた方はこちら</p>
+          <div  className="c-cursor"
+              onClick={() => dispatch(push("/signup"))}>アカウントをお持ちでない方はこちら</div>
+          <div  className="c-cursor"
+              onClick={() => dispatch(push("/signin/reset"))}>パスワードを忘れた方はこちら</div>
         </div>
       </div>
     </div>

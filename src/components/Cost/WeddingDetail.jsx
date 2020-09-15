@@ -36,7 +36,7 @@ const WeddingDetail = (props) => {
   ]
 
   return (
-    <section>
+    <>
       <h2 className="u-text__headline u-text-center">費用チェック</h2>
       <div className="c-section-container">
         <SelectBox 
@@ -77,7 +77,7 @@ const WeddingDetail = (props) => {
 
         
       </div>
-    </section>
+    </>
   )
 }
 
