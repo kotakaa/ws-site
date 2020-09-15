@@ -1,7 +1,7 @@
 import React from 'react';
 import { push } from 'connected-react-router';
 import { WhiteButton } from '../../components/UIkit';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import {useDispatch} from "react-redux";
 
 const BeforeHeaderMenu = () => {
@@ -17,7 +17,7 @@ const BeforeHeaderMenu = () => {
         <WhiteButton 
           onClick={() => dispatch(push("/signin"))}
           label={"SIGN IN"}
-          startIcon={<VpnKeyIcon />}
+          startIcon={<LockOpenIcon />}
         />
       </div>
       </div>

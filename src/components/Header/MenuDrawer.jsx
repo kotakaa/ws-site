@@ -7,10 +7,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import {makeStyles} from '@material-ui/core/styles';
 import IconButton from "@material-ui/core/IconButton";
+import CheckIcon from '@material-ui/icons/Check';
+import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import SearchIcon from "@material-ui/icons/Search";
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Collapse from '@material-ui/core/Collapse';
 import {push} from "connected-react-router";
 import {useDispatch} from "react-redux";
 import {signOut} from "../../reducks/users/operations";
@@ -45,7 +49,19 @@ const MenuDrawer = (props) => {
   const dispatch = useDispatch()
   const {container} = props
   const [keyword, setKeyword] = useState("");
-  const [filters, setFilters] = useState([]);
+  const [styleFilters, setStyleFilters] = useState([]);
+  const [typeFilters, setTypeFilters] = useState([]);
+  const [styleOpen, setStyleOpen] = useState(true);
+  const [typeOpen, setTypeOpen] = useState(true);
+
+
+  const styleHandleClick = () => {
+    setStyleOpen(!styleOpen);
+  };
+
+  const typeHandleClick = () => {
+    setTypeOpen(!typeOpen);
+  };
 
   const inputKeyword = useCallback((event) => {
     setKeyword(event.target.value)
@@ -60,9 +76,15 @@ const MenuDrawer = (props) => {
   const menus = [
     { func: selectMenu, 
       label: "商品登録",
-      icon: <AddCircleIcon />,
+      icon: <ControlPointIcon />,
       id: "register",
       value: "/product/edit"
+    },
+    { func: selectMenu, 
+      label: "費用チェック",
+      icon: <CheckIcon />,
+      id: "cost",
+      value: "/step"
     },
     { func: selectMenu, 
       label: "プロフィール",
@@ -85,7 +107,7 @@ const MenuDrawer = (props) => {
               value: `?style=${style.id}`}
           )
         })
-        setFilters(prevState => [...prevState, ...list])
+        setStyleFilters(prevState => [...prevState, ...list])
       })
     db.collection('types').orderBy('order', 'asc').get()
     .then(snapshots => {
@@ -99,7 +121,7 @@ const MenuDrawer = (props) => {
             value: `?type=${type.id}`}
         )
       })
-      setFilters(prevState => [...prevState, ...list])
+      setTypeFilters(prevState => [...prevState, ...list])
     })
   },[])
 
@@ -157,13 +179,34 @@ const MenuDrawer = (props) => {
           </ListItem>
         </List>
         <Divider/>
-        <List>
-          {filters.map( filter => (
-            <ListItem button key={filter.id} onClick={(event) => filter.func(event, filter.value)}>
-              <ListItemText primary={filter.label} />
-            </ListItem>
-          ))}
-        </List>
+        <ListItem button onClick={styleHandleClick}>
+          <ListItemText primary="挙式スタイル" />
+          {styleOpen ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={styleOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {styleFilters.map( filter => (
+              <ListItem button key={filter.id} onClick={(event) => filter.func(event, filter.value)}>
+                <ListItemText primary={filter.label} />
+              </ListItem>
+            ))}
+          </List>
+        </Collapse>
+        <Divider/>
+        <ListItem button onClick={typeHandleClick}>
+          <ListItemText primary="式場タイプ" />
+          {typeOpen ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={typeOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {typeFilters.map( filter => (
+              <ListItem button key={filter.id} onClick={(event) => filter.func(event, filter.value)}>
+                <ListItemText primary={filter.label} />
+              </ListItem>
+            ))}
+          </List>
+        </Collapse>
+        <Divider/>
       </div>
       </Drawer>
     </nav>
