@@ -13,6 +13,7 @@ const TextInput = (props) => {
       type={ props.type }
       required={ props.required }
       onChange={ props.onChange }
+      variant="outlined"
     />
   )
 }

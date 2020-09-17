@@ -192,6 +192,10 @@
   font-size: 1.563rem;
   margin: 0 auto 1rem auto;
 }
+.u-text__label {
+  color: #4dd0e1;
+  font-size: 1.3rem;
+}
 
 .u-display-none {
   display: none;

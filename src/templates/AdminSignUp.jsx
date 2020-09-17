@@ -121,7 +121,7 @@ const AdminSignUp = () => {
           <div className="module-spacer--medium" />
           <div  className="c-cursor"
               onClick={() => dispatch(push("/signin"))}>アカウントをすでにお持ちの方はこちら</div>
-        </div>
+          </div>
       </div>
       </div>
   )  

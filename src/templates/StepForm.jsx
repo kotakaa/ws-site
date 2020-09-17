@@ -4,10 +4,13 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import WeddingDetail from '../components/Cost/WeddingDetail';
 import BanquetDetail from '../components/Cost/BanquetDetail';
 import FixedCost from '../components/Cost/FixedCost';
+import CostResult from './CostResult';
+import { useDispatch } from 'react-redux';
+import { costResult } from '../reducks/users/operations';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +32,7 @@ function getSteps() {
 
 
 const StepForm = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
@@ -57,6 +61,8 @@ const StepForm = () => {
         [flowerDecoration, setFlowerDecoration] = useState(""),
         [staging, setStaging] = useState(""),
         [gift, setGift] = useState("");
+
+  
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -109,10 +115,10 @@ const StepForm = () => {
       </Stepper>
       <div>
         {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>結果は100万円です</Typography>
+          <div className="center">
+            <CostResult />
             <Button onClick={handleReset}>最初に戻る</Button>
-            <Button variant="contained" color="primary">保存する</Button>
+            <Button onClick={() => dispatch(costResult(value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift))} variant="contained" color="primary">保存する</Button>
           </div>
         ) : (
           <div>

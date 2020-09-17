@@ -69,6 +69,82 @@ export const saveProduct = (id, images, name, description, address, url, type, s
   }
 }
 
+export const saveCost = ( 
+  id,
+  dress1, dress2, dress3, dress4, 
+  snap1, snap2, snap3, 
+  movie1, movie2, movie3,
+  bouquet1 ,bouquet2, bouquet3, bouquet4,
+  makeAndDressing1, makeAndDressing2, makeAndDressing3, makeAndDressing4,
+  dish1, dish2, dish3, dish4,
+  cake1, cake2, cake3, cake4,
+  flowerDecoration1, flowerDecoration2, flowerDecoration3, flowerDecoration4,
+  staging1, staging2, staging3,
+  gift1, gift2, gift3,
+  value1, value2,
+  productId
+  ) => {
+  return async (dispatch) => {
+      const timestamp = FirebaseTimestamp.now();
+
+      const data = {
+        dress1: dress1,
+        dress2: dress2,
+        dress3: dress3,
+        dress4: dress4,
+        snap1: snap1,
+        snap2: snap2,
+        snap3: snap3,
+        movie1: movie1,
+        movie2: movie2,
+        movie3: movie3,
+        bouquet1: bouquet1,
+        bouquet2: bouquet2,
+        bouquet3: bouquet3,
+        bouquet4: bouquet4,
+        makeAndDressing1: makeAndDressing1,
+        makeAndDressing2: makeAndDressing2,
+        makeAndDressing3: makeAndDressing3,
+        makeAndDressing4: makeAndDressing4,
+        dish1: dish1,
+        dish2: dish2,
+        dish3: dish3,
+        dish4: dish4,
+        cake1: cake1,
+        cake2: cake2,
+        cake3: cake3,
+        cake4: cake4,
+        flowerDecoration1: flowerDecoration1,
+        flowerDecoration2: flowerDecoration2,
+        flowerDecoration3: flowerDecoration3,
+        flowerDecoration4: flowerDecoration4,
+        staging1: staging1,
+        staging2: staging2,
+        staging3: staging3,
+        gift1: gift1,
+        gift2: gift2,
+        gift3: gift3,
+        value1: value1, 
+        value2: value2,
+        updated_at: timestamp
+      }
+
+      if (id === "") {
+          const ref = productsRef.doc()
+          data.created_at = timestamp;
+          id = ref.id;
+          data.id = id;
+      }
+      const costRef = db.collection('products').doc(productId).collection('cost').doc(id)
+      await costRef.set(data, {merge: true})
+      .then(() => {
+          dispatch(push('/'))
+      }).catch((error) => {
+          throw new Error(error)
+      })
+  }
+}
+
 export const deleteProducts = (id) => {
   return async (dispatch, getState) => {
     productsRef.doc(id).delete()

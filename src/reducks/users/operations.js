@@ -12,6 +12,7 @@ export const addProductToFavorite = (addedProduct) => {
     dispatch(push('/favorite'))
   }
 }
+
 export const fetchProductsInFavorite = (products) => {
   return async (dispatch) => {
     dispatch(fetchProductsInFavoriteAction(products))
@@ -179,3 +180,11 @@ export const adminSignUp = (username, email, password, confirmPassword) => {
   }
 }
 
+export const costResult = (value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift) => {
+  return async (dispatch) => {
+    console.log(value, dress, snap, movie, bouquet, makeAndDressing,"dish + cake", dish + cake, flowerDecoration, staging, gift)
+    .then(()=> {
+      dispatch(push('/product'))
+    })
+  }
+}

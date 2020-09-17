@@ -6,6 +6,8 @@ import { ImageSwiper, FavoriteTable } from '../components/Products';
 import { addProductToFavorite } from '../reducks/users/operations';
 import HTMLReactParser from 'html-react-parser';
 import { getProductsInFavorite } from '../reducks/users/selectors';
+import { push } from 'connected-react-router';
+import { PrimaryButton } from '../components/UIkit';
 
 const useStyle = makeStyles((theme) => ({
   sliderBox: {
@@ -109,6 +111,10 @@ const ProductDetail = () => {
             <FavoriteTable 
               addFavorite={addFavorite}
               product={product}
+              />
+            <PrimaryButton
+              label={ "費用チェックを登録する" }
+              onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit'))}
               />
           </div>
         </div>

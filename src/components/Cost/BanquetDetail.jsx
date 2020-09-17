@@ -8,32 +8,32 @@ import FormLabel from '@material-ui/core/FormLabel';
 const BanquetDetail = (props) => {
 
   const dishs = [
-    {id: "very_picky", name: "豪華にしたい", value: 1000}, 
-    {id: "picky", name: "こだわりたい", value: 500},
-    {id: "nomal", name: "普通", value: 100},
-    {id: "no_picky", name: "そんなにこだわらない", value: 50},
+    {id: 1000, name: "豪華にしたい"}, 
+    {id: 500, name: "こだわりたい"},
+    {id: 100, name: "普通"},
+    {id: 50, name: "そんなにこだわらない"},
   ]
   const cakes = [
-    {id: "very_picky", name: "豪華にしたい", value: 1000}, 
-    {id: "picky", name: "こだわりたい", value: 500},
-    {id: "nomal", name: "普通", value: 100},
-    {id: "no_picky", name: "そんなにこだわらない", value: 50},
+    {id: 1000, name: "豪華にしたい"}, 
+    {id: 500, name: "こだわりたい"},
+    {id: 100, name: "普通"},
+    {id: 50, name: "そんなにこだわらない"},
   ]
   const flowerDecorations = [
-    {id: "very_picky", name: "豪華にしたい", value: 1000}, 
-    {id: "picky", name: "こだわりたい", value: 500},
-    {id: "nomal", name: "普通", value: 100},
-    {id: "no_picky", name: "そんなにこだわらない", value: 50},
+    {id: 1000, name: "豪華にしたい"}, 
+    {id: 500, name: "こだわりたい"},
+    {id: 100, name: "普通"},
+    {id: 50, name: "そんなにこだわらない"},
   ]
   const stagings = [
-    {id: "picky", name: "こだわりたい", value: 500},
-    {id: "nomal", name: "普通", value: 100},
-    {id: "no_picky", name: "そんなにこだわらない", value: 50},
+    {id: 500, name: "こだわりたい"},
+    {id: 100, name: "普通"},
+    {id: 50, name: "そんなにこだわらない"},
   ]
   const gifts = [
-    {id: "picky", name: "こだわりたい", value: 500},
-    {id: "nomal", name: "普通", value: 100},
-    {id: "no_picky", name: "そんなにこだわらない", value: 50},
+    {id: 500, name: "こだわりたい"},
+    {id: 100, name: "普通"},
+    {id: 50, name: "そんなにこだわらない"},
   ]
 
   return (
