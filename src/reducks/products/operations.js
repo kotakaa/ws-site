@@ -129,12 +129,19 @@ export const saveCost = (
         updated_at: timestamp
       }
 
-      if (id === "") {
-          const ref = productsRef.doc()
+
+      if (id === "" || typeof id === 'undefined') {
+          const ref = productsRef.doc(productId).collection('cost').doc()
           data.created_at = timestamp;
           id = ref.id;
           data.id = id;
+
+          const costId = {
+            costId: id
+          }
+          productsRef.doc(productId).set(costId, {merge: true})
       }
+
       const costRef = db.collection('products').doc(productId).collection('cost').doc(id)
       await costRef.set(data, {merge: true})
       .then(() => {
@@ -144,6 +151,7 @@ export const saveCost = (
       })
   }
 }
+
 
 export const deleteProducts = (id) => {
   return async (dispatch, getState) => {
@@ -231,4 +239,3 @@ export const orderProduct = (productsInCart, amount) => {
     }
   }
 }
-

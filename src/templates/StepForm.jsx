@@ -49,7 +49,7 @@ const StepForm = () => {
     setActiveStep(0);
   };
 
-  const [value, setValue] = useState('yes'),
+  const [value, setValue] = useState("cost.value1"),
         [dress, setDress] = useState(""),
         [snap, setSnap] = useState(""),
         [movie, setMovie] = useState(""),
@@ -63,7 +63,7 @@ const StepForm = () => {
         [gift, setGift] = useState("");
 
   
-
+        console.log(value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift);
   const handleChange = (event) => {
     setValue(event.target.value);
   };

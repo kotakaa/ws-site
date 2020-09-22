@@ -30,7 +30,7 @@ const Router = () => {
         <Route exact path={"/product/:id"} component={ProductDetail} />
         <Route path={"/product/edit(/:id)?"} component={ProductEdit} />
         <Route path={"/product/:id/cost/edit(/:id)?"} component={CostEdit} />
-        <Route path={"/step"} component={StepForm} />
+        <Route path={"/product/:id/cost/:id/step"} component={StepForm} />
         <Route path={"/favorite"} component={FavoriteList} />
         <Route path={"/result"} component={CostResult} />
       </Auth>

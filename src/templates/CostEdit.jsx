@@ -39,6 +39,7 @@ const CostEdit = () => {
   const steps = getSteps();
   const path = selector.router.location.pathname
   const productId = path.split('/')[2]
+  console.log(productId);
   let id = window.location.pathname.split('/')[5]
 
   const handleNext = () => {

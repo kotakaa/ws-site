@@ -181,10 +181,16 @@ export const adminSignUp = (username, email, password, confirmPassword) => {
 }
 
 export const costResult = (value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift) => {
-  return async (dispatch) => {
-    console.log(value, dress, snap, movie, bouquet, makeAndDressing,"dish + cake", dish + cake, flowerDecoration, staging, gift)
-    .then(()=> {
-      dispatch(push('/product'))
-    })
+  return async (dispatch, getState) => {
+    console.log(value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift);
+    const uid = getState().users.uid
+    const costsRef = db.collection('users').doc(uid).collection('costs').doc()
+    const result = Number(value) + Number(dress) + Number(snap) + Number(movie) + Number(bouquet) + Number(makeAndDressing) + Number(dish) + Number(cake) + Number(flowerDecoration) + Number(staging) + Number(gift)
+    console.log(result);
+    const addResult = {
+      result: result
+    }
+      await costsRef.set(addResult)
+      dispatch(push('/result'))
   }
 }

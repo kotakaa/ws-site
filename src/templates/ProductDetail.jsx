@@ -46,11 +46,12 @@ const returnCodeToBr = (description) => {
 }
 
 const ProductDetail = () => {
-  const classes = useStyle()
+  const classes = useStyle();
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
   const id = path.split('/product/')[1]
   const [product, setProduct] = useState(null);
+  const [cost, setCost] = useState(null);
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -58,6 +59,10 @@ const ProductDetail = () => {
       .then(doc => {
         const data = doc.data()
         setProduct(data)
+        if (data.costId !== "") {
+          const costId = data.costId
+          setCost(costId)
+        }
       })
   },[])
 
@@ -115,6 +120,10 @@ const ProductDetail = () => {
             <PrimaryButton
               label={ "費用チェックを登録する" }
               onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit'))}
+              />
+              <PrimaryButton
+              label={ "費用チェックをする" }
+              onClick={() => dispatch(push('/product/'+ product.id + '/cost/' + cost + '/step' ))}
               />
           </div>
         </div>
