@@ -65,7 +65,7 @@ const ProductDetail = () => {
         }
       })
   },[])
-
+console.log(cost);
   const addFavorite = useCallback(() => {
     const timestamp = FirebaseTimestamp.now()
     const productInFavorite = getProductsInFavorite(selector)

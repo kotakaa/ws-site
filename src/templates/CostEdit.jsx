@@ -92,7 +92,21 @@ const CostEdit = () => {
         [gift2, setGift2] = useState(""),
         [gift3, setGift3] = useState(""),
         [value1, setValue1] = useState(""),
-        [value2, setValue2] = useState("");
+        [value2, setValue2] = useState(""),
+        [weddingFee, setWeddingFee] = useState(""),
+        [tax, setTax] = useState(""),
+        [venueUsageFee, setVenueUsageFee] = useState("");
+
+  // 固定費
+  const inputWeddingFee = useCallback((event) => {
+    setWeddingFee(event.target.value)
+  }, [setWeddingFee])
+  const inputTax = useCallback((event) => {
+    setTax(event.target.value)
+  }, [setTax])
+  const inputVenueUsageFee = useCallback((event) => {
+    setVenueUsageFee(event.target.value)
+  }, [setVenueUsageFee])
 
   const inputDress1 = useCallback((event) => {
     setDress1(event.target.value)
@@ -353,7 +367,14 @@ const CostEdit = () => {
                   inputValue2={inputValue2}
                 />;
       case 2:
-        return <AdminFixedCost />;
+        return <AdminFixedCost
+                  weddingFee={weddingFee}
+                  inputWeddingFee={inputWeddingFee}
+                  tax={tax}
+                  inputTax={inputTax}
+                  venueUsageFee={venueUsageFee}
+                  inputVenueUsageFee={inputVenueUsageFee}
+                />;
       default:
         return 'Unknown stepIndex';
     }
@@ -370,27 +391,14 @@ const CostEdit = () => {
       <div>
         {activeStep === steps.length ? (
           <div className="center">
-            <Button onClick={handleReset}>最初に戻る</Button>
-            <Button onClick={() => dispatch(saveCost(
-              id,
-              dress1, dress2, dress3, dress4, 
-              snap1, snap2, snap3, 
-              movie1, movie2, movie3,
-              bouquet1 ,bouquet2, bouquet3, bouquet4,
-              makeAndDressing1, makeAndDressing2, makeAndDressing3, makeAndDressing4,
-              dish1, dish2, dish3, dish4,
-              cake1, cake2, cake3, cake4,
-              flowerDecoration1, flowerDecoration2, flowerDecoration3, flowerDecoration4,
-              staging1, staging2, staging3,
-              gift1, gift2, gift3,
-              value1, value1,
-              productId
-            ))} variant="contained" color="primary">保存する</Button>
           </div>
         ) : (
           <div>
             <div className={classes.instructions}>{getStepContent(activeStep)}</div>
             <div className="center">
+            {activeStep === steps.length - 1 ? (
+              <Button onClick={handleReset}>最初に戻る</Button>
+            ) : (
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
@@ -398,9 +406,29 @@ const CostEdit = () => {
               >
                 戻る
               </Button>
-              <Button variant="contained" color="primary" onClick={handleNext}>
-                {activeStep === steps.length - 1 ? '費用をチェックする' : '次に進む'}
-              </Button>
+            )}
+              {activeStep === steps.length - 1 ? (
+                <Button onClick={() => dispatch(saveCost(
+                  id,
+                  dress1, dress2, dress3, dress4, 
+                  snap1, snap2, snap3, 
+                  movie1, movie2, movie3,
+                  bouquet1 ,bouquet2, bouquet3, bouquet4,
+                  makeAndDressing1, makeAndDressing2, makeAndDressing3, makeAndDressing4,
+                  dish1, dish2, dish3, dish4,
+                  cake1, cake2, cake3, cake4,
+                  flowerDecoration1, flowerDecoration2, flowerDecoration3, flowerDecoration4,
+                  staging1, staging2, staging3,
+                  gift1, gift2, gift3,
+                  value1, value1,
+                  productId,
+                  weddingFee,
+                  tax,
+                  venueUsageFee
+                ))} variant="contained" color="primary">保存する</Button>
+              ) : (
+                <Button variant="contained" color="primary" onClick={handleNext}>次に進む</Button>
+              )}
             </div>
           </div>
         )}

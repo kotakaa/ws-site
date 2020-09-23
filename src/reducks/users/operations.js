@@ -182,15 +182,41 @@ export const adminSignUp = (username, email, password, confirmPassword) => {
 
 export const costResult = (value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift) => {
   return async (dispatch, getState) => {
-    console.log(value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift);
+    const timestamp = FirebaseTimestamp.now()
+    const Value = value.substring(5)
+    const Dress = dress.substring(5)
+    const Snap = snap.substring(4)
+    const Movie = movie.substring(5)
+    const Bouquet = bouquet.substring(7)
+    const MakeAndDressing = makeAndDressing.substring(15)
+    const Dish = dish.substring(4)
+    const Cake = cake.substring(4)
+    const FlowerDecoration = flowerDecoration.substring(16)
+    const Staging = staging.substring(7)
+    const Gift = gift.substring(4)
+    console.log(Value, Dress,Snap, Movie, Bouquet, MakeAndDressing, Dish, Cake, FlowerDecoration, Staging, Gift);
     const uid = getState().users.uid
     const costsRef = db.collection('users').doc(uid).collection('costs').doc()
-    const result = Number(value) + Number(dress) + Number(snap) + Number(movie) + Number(bouquet) + Number(makeAndDressing) + Number(dish) + Number(cake) + Number(flowerDecoration) + Number(staging) + Number(gift)
-    console.log(result);
+    const result = Number(Value) + Number(Dress) + Number(Snap) + Number(Movie) + Number(Bouquet) + Number(MakeAndDressing) + Number(Dish) + Number(Cake) + Number(FlowerDecoration) + Number(Staging) + Number(Gift)
+
     const addResult = {
-      result: result
+      result: result,
+      updated_at: timestamp,
+      value: Number(Value),
+      dress: Number(Dress),
+      snap: Number(Snap),
+      movie: Number(Movie),
+      bouquet: Number(Bouquet),
+      makeAndDressing:  Number(MakeAndDressing),
+      dish: Number(Dish), 
+      cake: Number(Cake), 
+      flowerDecoration: Number(FlowerDecoration), 
+      staging: Number(Staging), 
+      gift: Number(Gift),
+      costsId: costsRef.id
     }
+
       await costsRef.set(addResult)
-      dispatch(push('/result'))
+      dispatch(push('/result/' + costsRef.id))
   }
 }

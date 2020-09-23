@@ -35,7 +35,7 @@
 }
 
 .main {
-  margin-top: 80px;
+  margin-top: 80px !important;
 }
 
 .c-section-detail {
@@ -194,6 +194,9 @@
 }
 .u-text__label {
   color: #4dd0e1;
+  font-size: 1.3rem;
+}
+.u-text {
   font-size: 1.3rem;
 }
 

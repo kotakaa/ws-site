@@ -6,7 +6,7 @@ const AdminBanquetDetail = (props) => {
   return(
     <>
       <div className="c-section-container">
-      <h2 className="u-text__label u-text-left">お料理</h2>
+      <h2 className="u-text u-text-left">お料理(お一人当たり)</h2>
         <TextInput 
           label={ "豪華にしたい" }
           fullWidth={ true }
@@ -48,7 +48,7 @@ const AdminBanquetDetail = (props) => {
           onChange={ props.inputDish4 }
         />
         <div className="module-spacer--small"></div>
-        <h2 className="u-text__label u-text-left">ウエディングケーキ</h2>
+        <h2 className="u-text u-text-left">ウエディングケーキ</h2>
         <TextInput 
           label={ "豪華にしたい" }
           fullWidth={ true }
@@ -91,7 +91,7 @@ const AdminBanquetDetail = (props) => {
         />
         <div className="module-spacer--small"></div>
 
-        <h2 className="u-text__label u-text-left">装花</h2>
+        <h2 className="u-text u-text-left">装花</h2>
         <TextInput 
           label={ "豪華にしたい" }
           fullWidth={ true }
@@ -134,7 +134,7 @@ const AdminBanquetDetail = (props) => {
         />
         <div className="module-spacer--small"></div>
 
-        <h2 className="u-text__label u-text-left">演出(音響含む)</h2>
+        <h2 className="u-text u-text-left">演出(音響含む)</h2>
         <TextInput 
           label={ "こだわりたい" }
           fullWidth={ true }
@@ -167,7 +167,7 @@ const AdminBanquetDetail = (props) => {
         />
         <div className="module-spacer--small"></div>
 
-        <h2 className="u-text__label u-text-left">引出物</h2>
+        <h2 className="u-text u-text-left">引出物(お一人当たり)</h2>
         <TextInput 
           label={ "こだわりたい" }
           fullWidth={ true }
@@ -200,7 +200,7 @@ const AdminBanquetDetail = (props) => {
         />
         <div className="module-spacer--small"></div>
 
-        <h2 className="u-text__label u-text-left">司会者</h2>
+        <h2 className="u-text u-text-left">司会者</h2>
         <TextInput
           label={ "呼ぶ場合" }
           fullWidth={ true }

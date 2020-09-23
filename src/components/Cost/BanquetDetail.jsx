@@ -22,6 +22,7 @@ const BanquetDetail = (props) => {
         setCost(data)
       })
   },[])
+
   const dishs = [
     {id: cost.dish1, name: "豪華にしたい"}, 
     {id: cost.dish2, name: "こだわりたい"},
@@ -92,9 +93,9 @@ const BanquetDetail = (props) => {
         />
         
         <FormLabel component="legend" >司会者</FormLabel>
-        <RadioGroup aria-label="chairperson" name="chairperson" value={props.value} onChange={props.handleChange} >
-          <FormControlLabel value={ cost.value1 } control={<Radio color='primary'/>} label="必要" />
-          <FormControlLabel value={ cost.value2 } control={<Radio color='primary'/>} label="必要じゃない" />
+        <RadioGroup aria-label="chairperson" name="chairperson" value={props.radio} onChange={props.handleChange} >
+          <FormControlLabel value="value1" control={<Radio color='primary'/>} label="必要" />
+          <FormControlLabel value="value2" control={<Radio color='primary'/>} label="必要じゃない" />
         </RadioGroup>
       </div>
     </section>

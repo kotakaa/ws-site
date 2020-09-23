@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -8,8 +8,9 @@ import WeddingDetail from '../components/Cost/WeddingDetail';
 import BanquetDetail from '../components/Cost/BanquetDetail';
 import FixedCost from '../components/Cost/FixedCost';
 import CostResult from './CostResult';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { costResult } from '../reducks/users/operations';
+import { db } from '../firebase';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,8 +35,22 @@ function getSteps() {
 const StepForm = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const [cost, setCost] = useState("");
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
+  const selector = useSelector((state) => state)
+  const path = selector.router.location.pathname
+
+  const productId = path.split('/')[2]
+  const id = path.split('/')[4]
+
+  useEffect(() => {
+    db.collection('products').doc(productId).collection('cost').doc(id).get()
+      .then(doc => {
+        const data = doc.data()
+        setCost(data)
+      })
+  },[])
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -49,7 +64,8 @@ const StepForm = () => {
     setActiveStep(0);
   };
 
-  const [value, setValue] = useState("cost.value1"),
+  const [value, setValue] = useState(""),
+        [radio, setRadio] = useState(""),
         [dress, setDress] = useState(""),
         [snap, setSnap] = useState(""),
         [movie, setMovie] = useState(""),
@@ -60,13 +76,26 @@ const StepForm = () => {
         [cake, setCake] = useState(""),
         [flowerDecoration, setFlowerDecoration] = useState(""),
         [staging, setStaging] = useState(""),
-        [gift, setGift] = useState("");
+        [gift, setGift] = useState(""),
+        [weddingFee, setWeddingFee] = useState(""),
+        [tax, setTax] = useState(""),
+        [venueUsageFee, setVenueUsageFee] = useState("");
 
   
-        console.log(value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift);
+  console.log(value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift);
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setRadio(event.target.value);
   };
+
+  useEffect(() => {
+    if (radio === "value1") {
+      setValue(cost.value1);
+    }else if (radio === "value2") {
+      setValue(cost.value2);
+    }
+  },[radio])
+
+  console.log(value);
 
   function getStepContent(stepIndex) {
     switch (stepIndex) {
@@ -85,7 +114,7 @@ const StepForm = () => {
                 />;
       case 1:
         return <BanquetDetail
-                  value={value}
+                  radio={radio}
                   dish={dish}
                   cake={cake}
                   flowerDecoration={flowerDecoration}
@@ -99,7 +128,14 @@ const StepForm = () => {
                   handleChange={handleChange}
                 />;
       case 2:
-        return <FixedCost />;
+        return <FixedCost 
+                  weddingFee={weddingFee}
+                  setWeddingFee={setWeddingFee}
+                  tax={tax}
+                  setTax={setTax}
+                  venueUsageFee={venueUsageFee}
+                  setVenueUsageFee={setVenueUsageFee}
+                />;
       default:
         return 'Unknown stepIndex';
     }
@@ -116,14 +152,14 @@ const StepForm = () => {
       <div>
         {activeStep === steps.length ? (
           <div className="center">
-            <CostResult />
-            <Button onClick={handleReset}>最初に戻る</Button>
-            <Button onClick={() => dispatch(costResult(value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift))} variant="contained" color="primary">保存する</Button>
           </div>
         ) : (
           <div>
             <div className={classes.instructions}>{getStepContent(activeStep)}</div>
             <div className="center">
+            {activeStep === steps.length - 1 ? (
+              <Button onClick={handleReset}>最初に戻る</Button>
+            ) : (
               <Button
                 disabled={activeStep === 0}
                 onClick={handleBack}
@@ -131,9 +167,12 @@ const StepForm = () => {
               >
                 戻る
               </Button>
-              <Button variant="contained" color="primary" onClick={handleNext}>
-                {activeStep === steps.length - 1 ? '費用をチェックする' : '次に進む'}
-              </Button>
+            )}
+              {activeStep === steps.length - 1 ? (
+                <Button onClick={() => dispatch(costResult(value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift))} variant="contained" color="primary">費用をチェックする</Button>
+              ) : (
+                <Button variant="contained" color="primary" onClick={handleNext}>次に進む</Button>
+              )}
             </div>
           </div>
         )}

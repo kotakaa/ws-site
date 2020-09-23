@@ -75,7 +75,7 @@ const MenuDrawer = (props) => {
 
   const menus = [
     { func: selectMenu, 
-      label: "商品登録",
+      label: "式場登録",
       icon: <ControlPointIcon />,
       id: "register",
       value: "/product/edit"
