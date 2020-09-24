@@ -27,7 +27,7 @@ const Router = () => {
       <Auth>
         <Route exact path={"/product"} component={ProductList} />
         <Route exact path={"/user/mypage"} component={MyPage} />
-        <Route exact path={"/product/:id"} component={ProductDetail} />
+        <Route exact path={"/product/detail/:id"} component={ProductDetail} />
         <Route path={"/product/edit(/:id)?"} component={ProductEdit} />
         <Route path={"/product/:id/cost/edit(/:id)?"} component={CostEdit} />
         <Route path={"/product/:id/cost/:id/step"} component={StepForm} />

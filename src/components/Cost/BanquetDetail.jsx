@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SelectBox } from '../../components/UIkit/index';
+import { SelectBox, TextInput } from '../../components/UIkit/index';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -56,6 +56,16 @@ const BanquetDetail = (props) => {
     <section>
       <h2 className="u-text__headline u-text-center">費用チェック</h2>
       <div className="c-section-container">
+        <TextInput
+          label={ "ゲストの人数" }
+          fullWidth={ true }
+          multiline={ false }
+          rows={ 1 }
+          value={ props.number }
+          type={ "number" }
+          required={ true }
+          onChange={ props.inputNumber }
+        />
         <SelectBox 
           label={ "お料理" }
           value={ props.dish }

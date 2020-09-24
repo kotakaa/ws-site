@@ -49,11 +49,11 @@ const ProductDetail = () => {
   const classes = useStyle();
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
-  const id = path.split('/product/')[1]
+  const id = path.split('/product/detail/')[1]
   const [product, setProduct] = useState(null);
   const [cost, setCost] = useState(null);
   const dispatch = useDispatch()
-
+console.log(id);
   useEffect(() => {
     db.collection('products').doc(id).get()
       .then(doc => {

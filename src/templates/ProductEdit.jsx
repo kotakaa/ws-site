@@ -4,10 +4,19 @@ import { useDispatch } from 'react-redux';
 import { saveProduct } from '../reducks/products/operations';
 import { db } from '../firebase/index';
 import { ImageArea } from '../components/Products';
+import { useForm, Controller } from 'react-hook-form';
+
 
 
 const ProductEdit = () => {
   const dispatch = useDispatch();
+  const { register, handleSubmit, errors , control} = useForm();
+
+  const onSubmit = () => {
+    return (
+      dispatch(saveProduct(id, images, name, description, address, url, type, style, number, price, area))
+    )
+  }
 
   let id = window.location.pathname.split('/product/edit')[1];
     if (id !== "" && typeof id !== 'undefined') {
@@ -120,8 +129,9 @@ const ProductEdit = () => {
   return(
     <section className="main">
       <h2 className="u-text__headline u-text-center">式場の登録・編集</h2>
-      <div className="c-section-container">
+      <form className="c-section-container">
         <ImageArea images={ images } setImages={ setImages }/>
+        
         <TextInput 
           label={ "式場名" }
           fullWidth={ true }
@@ -131,7 +141,16 @@ const ProductEdit = () => {
           type={ "text" }
           required={ true }
           onChange={ inputName }
+          name={"式場名"}
+          inputRef={register({
+            required: "必須項目です！",
+            maxLength : {
+              value: 30,
+              message: '30文字以内で入力してください'
+            }
+          })}
         />
+          {errors.式場名 && "式場名を入力してください"}
         <TextInput 
           label={ "式場説明" }
           fullWidth={ true }
@@ -141,7 +160,12 @@ const ProductEdit = () => {
           type={ "text" }
           required={ true }
           onChange={ inputDescription }
+          name={"式場説明"}
+          inputRef={register({
+            required: "必須項目です！",
+          })}
         />
+          {errors.式場説明 && "式場説明を入力してください"}
         <TextInput 
           label={ "住所" }
           fullWidth={ true }
@@ -151,7 +175,12 @@ const ProductEdit = () => {
           type={ "text" }
           required={ true }
           onChange={ inputAddress }
+          name={"住所"}
+          inputRef={register({
+            required: "必須項目です！"
+          })}
         />
+          {errors.住所 && "住所を入力してください"}
         <TextInput 
           label={ "HPのURL" }
           fullWidth={ true }
@@ -161,7 +190,12 @@ const ProductEdit = () => {
           type={ "text" }
           required={ true }
           onChange={ inputUrl }
+          name={"HPのURL"}
+          inputRef={register({
+            required: "必須項目です！",
+          })}
         />
+          {errors.HPのURL && "HPのURLを入力してください"}
 
         <SelectBox 
           label={ "式場のタイプ" }
@@ -204,10 +238,16 @@ const ProductEdit = () => {
         <div className="center">
           <PrimaryButton 
             label={ "登録する" }
-            onClick={() => dispatch(saveProduct(id, images, name, description, address, url, type, style, number, price, area))}
           />
+          <Controller
+          as={<PrimaryButton label={ "登録する" }/>}
+          name="submit"
+          control={control}
+          defaultValue=""
+          onClick={handleSubmit(onSubmit)}
+        />
         </div>
-      </div>
+      </form>
     </section>
   )
 }

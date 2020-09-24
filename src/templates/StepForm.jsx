@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -52,6 +52,10 @@ const StepForm = () => {
       })
   },[])
 
+  const weddingFee = cost.weddingFee
+  const tax = cost.tax
+  const venueUsageFee = cost.venueUsageFee
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -72,20 +76,21 @@ const StepForm = () => {
         [bouquet, setBouquet] = useState(""),
         [makeAndDressing, setMakeAndDressing] = useState(""),
         
+        [number, setNumber] = useState(""),
         [dish, setDish] = useState(""),
         [cake, setCake] = useState(""),
         [flowerDecoration, setFlowerDecoration] = useState(""),
         [staging, setStaging] = useState(""),
-        [gift, setGift] = useState(""),
-        [weddingFee, setWeddingFee] = useState(""),
-        [tax, setTax] = useState(""),
-        [venueUsageFee, setVenueUsageFee] = useState("");
+        [gift, setGift] = useState("");
 
-  
-  console.log(value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift);
+  console.log(value, number ,dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee);
   const handleChange = (event) => {
     setRadio(event.target.value);
   };
+
+  const inputNumber = useCallback((event) => {
+    setNumber(event.target.value)
+  }, [setNumber])
 
   useEffect(() => {
     if (radio === "value1") {
@@ -114,12 +119,14 @@ const StepForm = () => {
                 />;
       case 1:
         return <BanquetDetail
+                  number={number}
                   radio={radio}
                   dish={dish}
                   cake={cake}
                   flowerDecoration={flowerDecoration}
                   staging={staging}
                   gift={gift}
+                  inputNumber={inputNumber}
                   setDish={setDish}
                   setCake={setCake}
                   setFlowerDecoration={setFlowerDecoration}
@@ -128,14 +135,7 @@ const StepForm = () => {
                   handleChange={handleChange}
                 />;
       case 2:
-        return <FixedCost 
-                  weddingFee={weddingFee}
-                  setWeddingFee={setWeddingFee}
-                  tax={tax}
-                  setTax={setTax}
-                  venueUsageFee={venueUsageFee}
-                  setVenueUsageFee={setVenueUsageFee}
-                />;
+        return <FixedCost />;
       default:
         return 'Unknown stepIndex';
     }
@@ -169,7 +169,7 @@ const StepForm = () => {
               </Button>
             )}
               {activeStep === steps.length - 1 ? (
-                <Button onClick={() => dispatch(costResult(value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift))} variant="contained" color="primary">費用をチェックする</Button>
+                <Button onClick={() => dispatch(costResult(value, dress, snap, movie, bouquet, makeAndDressing, dish, number, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee))} variant="contained" color="primary">費用をチェックする</Button>
               ) : (
                 <Button variant="contained" color="primary" onClick={handleNext}>次に進む</Button>
               )}

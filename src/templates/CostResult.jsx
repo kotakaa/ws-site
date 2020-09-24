@@ -45,8 +45,9 @@ const CostResult = () => {
   return (
     <>
     <TableContainer component={Paper}>
-      <h2 className="u-text__headline u-text-center main">詳細画面</h2>
-      <div className="center">結婚式にかかる費用は　平均で　{costResult.result} 円です</div>
+      <h2 className="u-text__headline u-text-center main">費用チェックの結果</h2>
+      <div className="center">ゲストを {costResult.number}人 招待した場合</div>
+      <div className="center">結婚式にかかる費用は平均で　{costResult.result}円　です</div>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -109,6 +110,22 @@ const CostResult = () => {
             <TableCell component="th" scope="row">司会者</TableCell>
             <TableCell align="right">{costResult.value}</TableCell>
           </TableRow>
+
+          <TableRow>
+            <TableCell component="th" scope="row">挙式料</TableCell>
+            <TableCell align="right">{costResult.weddingFee}</TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell component="th" scope="row">会場使用料</TableCell>
+            <TableCell align="right">{costResult.venueUsageFee}</TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell component="th" scope="row">サービス料</TableCell>
+            <TableCell align="right">{costResult.tax}%</TableCell>
+          </TableRow>
+
         </TableBody>
       </Table>
     </TableContainer>

@@ -180,7 +180,7 @@ export const adminSignUp = (username, email, password, confirmPassword) => {
   }
 }
 
-export const costResult = (value, dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift) => {
+export const costResult = (value, dress, snap, movie, bouquet, makeAndDressing, dish, number, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee) => {
   return async (dispatch, getState) => {
     const timestamp = FirebaseTimestamp.now()
     const Value = value.substring(5)
@@ -197,10 +197,17 @@ export const costResult = (value, dress, snap, movie, bouquet, makeAndDressing, 
     console.log(Value, Dress,Snap, Movie, Bouquet, MakeAndDressing, Dish, Cake, FlowerDecoration, Staging, Gift);
     const uid = getState().users.uid
     const costsRef = db.collection('users').doc(uid).collection('costs').doc()
-    const result = Number(Value) + Number(Dress) + Number(Snap) + Number(Movie) + Number(Bouquet) + Number(MakeAndDressing) + Number(Dish) + Number(Cake) + Number(FlowerDecoration) + Number(Staging) + Number(Gift)
+    const numberResult = number * (Number(Dish) + Number(Gift))
+    const total = numberResult + Number(Value) + Number(Dress) + Number(Snap) + Number(Movie) + Number(Bouquet) + Number(MakeAndDressing)  + Number(Cake) + Number(FlowerDecoration) + Number(Staging) + weddingFee + venueUsageFee
+    // 税の計算
+    const taxResult = tax * 0.01
+    const totalTax = total * taxResult
+    const totalResult = totalTax + total
 
+    console.log(numberResult);
+    console.log(totalResult);
     const addResult = {
-      result: result,
+      result: totalResult,
       updated_at: timestamp,
       value: Number(Value),
       dress: Number(Dress),
@@ -208,11 +215,15 @@ export const costResult = (value, dress, snap, movie, bouquet, makeAndDressing, 
       movie: Number(Movie),
       bouquet: Number(Bouquet),
       makeAndDressing:  Number(MakeAndDressing),
+      number: number,
       dish: Number(Dish), 
       cake: Number(Cake), 
       flowerDecoration: Number(FlowerDecoration), 
       staging: Number(Staging), 
       gift: Number(Gift),
+      weddingFee: weddingFee, 
+      tax: tax, 
+      venueUsageFee: venueUsageFee,
       costsId: costsRef.id
     }
 
