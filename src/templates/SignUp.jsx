@@ -13,9 +13,41 @@ const SignUp = () => {
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState(""),
+        [isUsername, setIsUsername] = useState(false),
         [email, setEmail] = useState(""),
+        [isEmail, setIsEmail] = useState(false),
         [password, setPassword] = useState(""),
-        [confirmPassword, setConfirmPassword] = useState("");
+        [isPassword, setIsPassword] = useState(false),
+        [confirmPassword, setConfirmPassword] = useState(""),
+        [isConfirmPassword, setIsConfirmPassword] = useState(false);
+
+  const errorMessage = (username, email, password, confirmPassword) => {
+    // textInput
+    if (username === "") {
+      setIsUsername(true)}
+    else{
+      setIsUsername(false)}
+
+    if (email === "") {
+      setIsEmail(true)}
+    else{
+      setIsEmail(false)}
+  
+    if (password === "") {
+      setIsPassword(true)}
+    else{
+      setIsPassword(false)}
+  
+    if (confirmPassword === "") {
+      setIsConfirmPassword(true)}
+    else{
+      setIsConfirmPassword(false)}
+  
+    if (username !== "" && email !== "" && password !== "" && confirmPassword !== "") {
+      dispatch(signUp(username, email, password, confirmPassword))
+    }
+  }
+
 
   const inputUsername = useCallback((event) => {
     setUsername(event.target.value)
@@ -59,6 +91,7 @@ const SignUp = () => {
           />
         </Grid>
       </Grid>
+      { isUsername && <span className="error-message">ユーザー名を入力してください</span> }
 
       <Grid container spacing={1} alignItems="flex-end">
         <Grid item>
@@ -77,6 +110,7 @@ const SignUp = () => {
           />
         </Grid>
       </Grid>
+      { isEmail && <span className="error-message">メールアドレスを入力してください</span> }
 
       <Grid container spacing={1} alignItems="flex-end">
         <Grid item>
@@ -85,7 +119,7 @@ const SignUp = () => {
         <Grid item>
           <TextInput 
             fullWidth={ true }
-            label={ "パスワード" }
+            label={ "パスワード(6文字以上)" }
             multiline={ false }
             rows={ 1 }
             value={ password }
@@ -95,6 +129,7 @@ const SignUp = () => {
           />
         </Grid>
       </Grid>
+      { isPassword && <span className="error-message">パスワードを入力してください</span> }
 
       <Grid container spacing={1} alignItems="flex-end">
         <Grid item>
@@ -113,11 +148,10 @@ const SignUp = () => {
           />
         </Grid>
       </Grid>
+      { isConfirmPassword && <span className="error-message">パスワード(再確認)を入力してください</span> }
+
         <div className="center">
-          <PrimaryButton 
-            label={ "Sign up" }
-            onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
-          />
+          <PrimaryButton label={ "Sign up" } onClick={() => errorMessage(username, email, password, confirmPassword)}/>
           <div className="module-spacer--medium" />
           <div  className="c-cursor"
               onClick={() => dispatch(push("/signin"))}>アカウントをすでにお持ちの方はこちら</div>

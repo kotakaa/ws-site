@@ -25,7 +25,7 @@ const ProductEdit = () => {
   else{
     setIsImages(false)}
 
-    // textInput
+  // textInput
   if (name === "") {
     setIsName(true)}
   else{
