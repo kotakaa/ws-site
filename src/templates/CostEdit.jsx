@@ -39,7 +39,7 @@ const CostEdit = () => {
   const steps = getSteps();
   const path = selector.router.location.pathname
   const productId = path.split('/')[2]
-  console.log(productId);
+
   let id = window.location.pathname.split('/')[5]
 
   const handleNext = () => {
@@ -234,52 +234,135 @@ const CostEdit = () => {
     setValue2(event.target.value)
   }, [setValue2])
 
+  const errorMessage = (images, name, description, address, url, type, style, number, price, area) => {
+    return false
+  }
+
   useEffect(() => {
     if (id !== "" && typeof id !== 'undefined') {
+      console.log(productId, id);
       db.collection('products').doc(productId).collection('cost').doc(id).get()
         .then(snapshot => {
           const data = snapshot.data();
-          setDress1(data.dress1);
-          setDress2(data.dress2);
-          setDress3(data.dress3);
-          setDress4(data.dress4);
-          setSnap1(data.snap1);
-          setSnap2(data.snap2);
-          setSnap3(data.snap3);
-          setMovie1(data.movie1);
-          setMovie2(data.movie2);
-          setMovie3(data.movie3);
-          setBouquet1(data.bouquet1);
-          setBouquet2(data.bouquet2);
-          setBouquet3(data.bouquet3);
-          setBouquet4(data.bouquet4);
-          setMakeAndDressing1(data.makeAndDressing1);
-          setMakeAndDressing2(data.makeAndDressing2);
-          setMakeAndDressing3(data.makeAndDressing3);
-          setMakeAndDressing4(data.makeAndDressing4);
-          setDish1(data.dish1);
-          setDish2(data.dish2);
-          setDish3(data.dish3);
-          setDish4(data.dish4);
-          setCake1(data.cake1);
-          setCake2(data.cake2);
-          setCake3(data.cake3);
-          setCake4(data.cake4);
-          setFlowerDecoration1(data.flowerDecoration1);
-          setFlowerDecoration2(data.flowerDecoration2);
-          setFlowerDecoration3(data.flowerDecoration3);
-          setFlowerDecoration4(data.flowerDecoration4);
-          setStaging1(data.staging1);
-          setStaging2(data.staging2);
-          setStaging3(data.staging3);
-          setGift1(data.gift1);
-          setGift2(data.gift2);
-          setGift3(data.gift3);
-          setValue1(data.value1);
-          setValue2(data.value2);
+          const dress1 = data.dress1.substring(5),
+                dress2 = data.dress2.substring(5),
+                dress3 = data.dress3.substring(5),
+                dress4 = data.dress4.substring(5),
+                snap1 = data.snap1.substring(4),
+                snap2 = data.snap2.substring(4),
+                snap3 = data.snap3.substring(4),
+                movie1 = data.movie1.substring(5),
+                movie2 = data.movie2.substring(5),
+                movie3 = data.movie3.substring(5),
+                bouquet1 = data.bouquet1.substring(7),
+                bouquet2 = data.bouquet2.substring(7),
+                bouquet3 = data.bouquet3.substring(7),
+                bouquet4 = data.bouquet4.substring(7),
+                makeAndDressing1 = data.makeAndDressing1.substring(15),
+                makeAndDressing2 = data.makeAndDressing2.substring(15),
+                makeAndDressing3 = data.makeAndDressing3.substring(15),
+                makeAndDressing4 = data.makeAndDressing4.substring(15),
+                dish1 = data.dish1.substring(4),
+                dish2 = data.dish2.substring(4),
+                dish3 = data.dish3.substring(4),
+                dish4 = data.dish4.substring(4),
+                cake1 = data.cake1.substring(4),
+                cake2 = data.cake2.substring(4),
+                cake3 = data.cake3.substring(4),
+                cake4 = data.cake4.substring(4),
+                flowerDecoration1 = data.flowerDecoration1.substring(16),
+                flowerDecoration2 = data.flowerDecoration2.substring(16),
+                flowerDecoration3 = data.flowerDecoration3.substring(16),
+                flowerDecoration4 = data.flowerDecoration4.substring(16),
+                staging1 = data.staging1.substring(7),
+                staging2 = data.staging2.substring(7),
+                staging3 = data.staging3.substring(7),
+                gift1 = data.gift1.substring(4),
+                gift2 = data.gift2.substring(4),
+                gift3 = data.gift3.substring(4),
+                value1 = data.value1.substring(5),
+                value2 = data.value2.substring(5);
+
+          setDress1(Number(dress1));
+          setDress2(Number(dress2));
+          setDress3(Number(dress3));
+          setDress4(Number(dress4));
+          setSnap1(Number(snap1));
+          setSnap2(Number(snap2));
+          setSnap3(Number(snap3));
+          setMovie1(Number(movie1));
+          setMovie2(Number(movie2));
+          setMovie3(Number(movie3));
+          setBouquet1(Number(bouquet1));
+          setBouquet2(Number(bouquet2));
+          setBouquet3(Number(bouquet3));
+          setBouquet4(Number(bouquet4));
+          setMakeAndDressing1(Number(makeAndDressing1));
+          setMakeAndDressing2(Number(makeAndDressing2));
+          setMakeAndDressing3(Number(makeAndDressing3));
+          setMakeAndDressing4(Number(makeAndDressing4));
+          setDish1(Number(dish1));
+          setDish2(Number(dish2));
+          setDish3(Number(dish3));
+          setDish4(Number(dish4));
+          setCake1(Number(cake1));
+          setCake2(Number(cake2));
+          setCake3(Number(cake3));
+          setCake4(Number(cake4));
+          setFlowerDecoration1(Number(flowerDecoration1));
+          setFlowerDecoration2(Number(flowerDecoration2));
+          setFlowerDecoration3(Number(flowerDecoration3));
+          setFlowerDecoration4(Number(flowerDecoration4));
+          setStaging1(Number(staging1));
+          setStaging2(Number(staging2));
+          setStaging3(Number(staging3));
+          setGift1(Number(gift1));
+          setGift2(Number(gift2));
+          setGift3(Number(gift3));
+          setValue1(Number(value1));
+          setValue2(Number(value2));
+          setWeddingFee(data.weddingFee);
+          setTax(data.tax);
+          setVenueUsageFee(data.venueUsageFee);
         })
     }
   },[id]);
+
+  function getStepButton(activeStep) {
+    switch (activeStep) {
+      case 0:
+        return(
+          <Button variant="contained" color="primary" onClick={handleNext}>次に進む</Button>
+        )
+      case 1:
+        return(
+          <Button variant="contained" color="primary" onClick={handleNext}>次に進む</Button>
+        )
+      case 2: 
+        return(
+          <Button onClick={() => dispatch(saveCost(
+            id,
+            dress1, dress2, dress3, dress4, 
+            snap1, snap2, snap3, 
+            movie1, movie2, movie3,
+            bouquet1 ,bouquet2, bouquet3, bouquet4,
+            makeAndDressing1, makeAndDressing2, makeAndDressing3, makeAndDressing4,
+            dish1, dish2, dish3, dish4,
+            cake1, cake2, cake3, cake4,
+            flowerDecoration1, flowerDecoration2, flowerDecoration3, flowerDecoration4,
+            staging1, staging2, staging3,
+            gift1, gift2, gift3,
+            value1, value1,
+            productId,
+            weddingFee,
+            tax,
+            venueUsageFee
+          ))} variant="contained" color="primary">保存する</Button>
+        )
+      default:
+        return 'Unknown stepIndex';
+    }
+  }
 
 
   function getStepContent(stepIndex) {
@@ -379,6 +462,7 @@ const CostEdit = () => {
         return 'Unknown stepIndex';
     }
   }
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} alternativeLabel>
@@ -407,28 +491,8 @@ const CostEdit = () => {
                 戻る
               </Button>
             )}
-              {activeStep === steps.length - 1 ? (
-                <Button onClick={() => dispatch(saveCost(
-                  id,
-                  dress1, dress2, dress3, dress4, 
-                  snap1, snap2, snap3, 
-                  movie1, movie2, movie3,
-                  bouquet1 ,bouquet2, bouquet3, bouquet4,
-                  makeAndDressing1, makeAndDressing2, makeAndDressing3, makeAndDressing4,
-                  dish1, dish2, dish3, dish4,
-                  cake1, cake2, cake3, cake4,
-                  flowerDecoration1, flowerDecoration2, flowerDecoration3, flowerDecoration4,
-                  staging1, staging2, staging3,
-                  gift1, gift2, gift3,
-                  value1, value1,
-                  productId,
-                  weddingFee,
-                  tax,
-                  venueUsageFee
-                ))} variant="contained" color="primary">保存する</Button>
-              ) : (
-                <Button variant="contained" color="primary" onClick={handleNext}>次に進む</Button>
-              )}
+
+              <span>{getStepButton(activeStep)}</span>
             </div>
           </div>
         )}
