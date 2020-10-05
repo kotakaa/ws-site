@@ -1,22 +1,82 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { TextInput, SelectBox, PrimaryButton } from '../components/UIkit';
 import { useDispatch } from 'react-redux';
 import { saveProduct } from '../reducks/products/operations';
 import { db } from '../firebase/index';
 import { ImageArea } from '../components/Products';
-import { useForm, Controller } from 'react-hook-form';
+import { makeStyles } from '@material-ui/core';
 
-
+const useStyles = makeStyles({
+  formControl: {
+    marginBottom: 8,
+    minWidth: 128,
+    width: "100%"
+  }
+})
 
 const ProductEdit = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
-  const { register, handleSubmit, errors , control} = useForm();
 
-  const onSubmit = () => {
-    return (
-      dispatch(saveProduct(id, images, name, description, address, url, type, style, number, price, area))
-    )
+  const errorMessage = (images, name, description, address, url, type, style, number, price, area) => {
+  // imagearea
+  if (images.length === 0) {
+    setIsImages(true)}
+  else{
+    setIsImages(false)}
+
+    // textInput
+  if (name === "") {
+    setIsName(true)}
+  else{
+    setIsName(false)}
+
+  if (description === "") {
+    setIsDescription(true)}
+  else{
+    setIsDescription(false)}
+
+  if (address === "") {
+    setIsAddress(true)}
+  else{
+    setIsAddress(false)}
+
+  if (url === "") {
+    setIsUrl(true)}
+  else{
+    setIsUrl(false)}
+
+  // selectbox
+  if (type === "") {
+    setIsType(true)}
+  else{
+    setIsType(false)}
+
+  if(style === "") {
+    setIsStyle(true)
+  }else{
+    setIsStyle(false)}
+
+  if(number === "") {
+    setIsNumber(true)
+  }else{
+    setIsNumber(false)} 
+  
+  if(price === "") {
+    setIsPrice(true)
+  }else{
+    setIsPrice(false)} 
+
+  if(area === "") {
+    setIsArea(true)
+  }else{
+    setIsArea(false)} 
+  
+  // 全部入力されたら
+  if (images.length > 0 && name !== "" && description !== "" && address !== "" && url !== "" && type !== "" && style !== "" && number !== "" && price !== "" && area !== ""){
+    dispatch(saveProduct(id, images, name, description, address, url, type, style, number, price, area))
   }
+}
 
   let id = window.location.pathname.split('/product/edit')[1];
     if (id !== "" && typeof id !== 'undefined') {
@@ -24,17 +84,27 @@ const ProductEdit = () => {
     }
 
   const [images, setImages] = useState([]),
+        [isImages, setIsImages] = useState(false),
         [name, setName] = useState(""),
+        [isName, setIsName] = useState(false),
         [description, setDescription] = useState(""),
+        [isDescription, setIsDescription] = useState(false),
         [address, setAddress] = useState(""),
+        [isAddress, setIsAddress] = useState(false),
         [url, setUrl] = useState(""),
+        [isUrl, setIsUrl] = useState(false),
         [type, setType] = useState(""),
         [types, setTypes] = useState([]),
+        [isType, setIsType] = useState(false),
         [style, setStyle] = useState(""),
         [styles, setStyles] = useState([]),
+        [isStyle, setIsStyle] = useState(false),
         [number, setNumber] = useState(""),
+        [isNumber, setIsNumber] = useState(false),
         [price, setPrice] = useState(""),
-        [area, setArea] = useState("");
+        [isPrice, setIsPrice] = useState(false),
+        [area, setArea] = useState(""),
+        [isArea, setIsArea] = useState(false);
   
   const inputName = useCallback((event) => {
     setName(event.target.value)
@@ -93,6 +163,7 @@ const ProductEdit = () => {
         })
         setStyles(list)
       })
+
     db.collection('types').orderBy('order', 'asc').get()
     .then(snapshots => {
       const list = [];
@@ -131,6 +202,7 @@ const ProductEdit = () => {
       <h2 className="u-text__headline u-text-center">式場の登録・編集</h2>
       <form className="c-section-container">
         <ImageArea images={ images } setImages={ setImages }/>
+        { isImages && <span className="error-message">写真を入れてください</span> }
         
         <TextInput 
           label={ "式場名" }
@@ -141,16 +213,9 @@ const ProductEdit = () => {
           type={ "text" }
           required={ true }
           onChange={ inputName }
-          name={"式場名"}
-          inputRef={register({
-            required: "必須項目です！",
-            maxLength : {
-              value: 30,
-              message: '30文字以内で入力してください'
-            }
-          })}
         />
-          {errors.式場名 && "式場名を入力してください"}
+          { isName && <span className="error-message">式場名を入力してください</span> }
+
         <TextInput 
           label={ "式場説明" }
           fullWidth={ true }
@@ -160,12 +225,9 @@ const ProductEdit = () => {
           type={ "text" }
           required={ true }
           onChange={ inputDescription }
-          name={"式場説明"}
-          inputRef={register({
-            required: "必須項目です！",
-          })}
         />
-          {errors.式場説明 && "式場説明を入力してください"}
+          { isDescription && <span className="error-message">式場説明を入力してください</span> }
+
         <TextInput 
           label={ "住所" }
           fullWidth={ true }
@@ -175,12 +237,9 @@ const ProductEdit = () => {
           type={ "text" }
           required={ true }
           onChange={ inputAddress }
-          name={"住所"}
-          inputRef={register({
-            required: "必須項目です！"
-          })}
         />
-          {errors.住所 && "住所を入力してください"}
+          { isAddress && <span className="error-message">住所を入力してください</span> }
+
         <TextInput 
           label={ "HPのURL" }
           fullWidth={ true }
@@ -190,12 +249,8 @@ const ProductEdit = () => {
           type={ "text" }
           required={ true }
           onChange={ inputUrl }
-          name={"HPのURL"}
-          inputRef={register({
-            required: "必須項目です！",
-          })}
         />
-          {errors.HPのURL && "HPのURLを入力してください"}
+          { isUrl && <span className="error-message">HPのURLを入力してください</span> }
 
         <SelectBox 
           label={ "式場のタイプ" }
@@ -204,6 +259,7 @@ const ProductEdit = () => {
           required={ true }
           select={ setType }
         />
+        { isType && <span className="error-message">式場のタイプを選択してください</span> }
 
         <SelectBox 
           label={ "挙式スタイル" }
@@ -212,6 +268,8 @@ const ProductEdit = () => {
           required={ true }
           select={ setStyle }
         />
+        { isStyle && <span className="error-message">挙式スタイルを選択してください</span> }
+
         <SelectBox 
           label={ "招待人数" }
           value={ number }
@@ -219,6 +277,8 @@ const ProductEdit = () => {
           required={ true }
           select={ setNumber }
         />
+        { isNumber && <span className="error-message">招待人数を選択してください</span> }
+
         <SelectBox 
           label={ "予算" }
           value={ price }
@@ -226,6 +286,8 @@ const ProductEdit = () => {
           required={ true }
           select={ setPrice }
         />
+        { isPrice && <span className="error-message">予算を選択してください</span> }
+
         <SelectBox 
           label={ "エリア" }
           value={ area }
@@ -233,19 +295,11 @@ const ProductEdit = () => {
           required={ true }
           select={ setArea }
         />
+        { isArea && <span className="error-message">エリアを選択してください</span> }
 
         <div className="module-spacer--small" />
         <div className="center">
-          <PrimaryButton 
-            label={ "登録する" }
-          />
-          <Controller
-          as={<PrimaryButton label={ "登録する" }/>}
-          name="submit"
-          control={control}
-          defaultValue=""
-          onClick={handleSubmit(onSubmit)}
-        />
+          <PrimaryButton label={ "登録する" } onClick={() => errorMessage(images, name, description, address, url, type, style, number, price, area)}/>
         </div>
       </form>
     </section>

@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { ImageSwiper, FavoriteTable } from '../components/Products';
 import { addProductToFavorite } from '../reducks/users/operations';
 import HTMLReactParser from 'html-react-parser';
-import { getProductsInFavorite } from '../reducks/users/selectors';
+import { getProductsInFavorite, getRole } from '../reducks/users/selectors';
 import { push } from 'connected-react-router';
 import { PrimaryButton } from '../components/UIkit';
 
@@ -48,12 +48,13 @@ const returnCodeToBr = (description) => {
 const ProductDetail = () => {
   const classes = useStyle();
   const selector = useSelector((state) => state)
+  const role = getRole(selector)
+  console.log(role);
   const path = selector.router.location.pathname
   const id = path.split('/product/detail/')[1]
   const [product, setProduct] = useState(null);
   const [cost, setCost] = useState(null);
   const dispatch = useDispatch()
-console.log(id);
   useEffect(() => {
     db.collection('products').doc(id).get()
       .then(doc => {
@@ -65,11 +66,9 @@ console.log(id);
         }
       })
   },[])
-console.log(cost);
   const addFavorite = useCallback(() => {
     const timestamp = FirebaseTimestamp.now()
     const productInFavorite = getProductsInFavorite(selector)
-
     productInFavorite.map( p => {
         if (p.productId === product.id) {
           return false
@@ -117,14 +116,19 @@ console.log(cost);
               addFavorite={addFavorite}
               product={product}
               />
-            <PrimaryButton
-              label={ "費用チェックを登録する" }
-              onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit'))}
-              />
-              <PrimaryButton
-              label={ "費用チェックをする" }
-              onClick={() => dispatch(push('/product/'+ product.id + '/cost/' + cost + '/step' ))}
-              />
+              {
+                (role === "admin") ? (
+                  <PrimaryButton
+                    label={ "費用チェックを登録する" }
+                    onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit'))}
+                  />
+                ):(
+                  <PrimaryButton
+                    label={ "費用チェックをする" }
+                    onClick={() => dispatch(push('/product/'+ product.id + '/cost/' + cost + '/step' ))}
+                  />
+                )
+              }
           </div>
         </div>
       )}

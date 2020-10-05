@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from "@material-ui/core/Menu";
@@ -12,6 +12,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import NoImage from "../../assets/img/src/no_image.png";
 import { push } from "connected-react-router";
 import { deleteProducts } from "../../reducks/products/operations";
+import { getRole } from "../../reducks/users/selectors";
 import LazyLoad from 'react-lazyload'
 
 const useStyles = makeStyles((theme) => ({
@@ -66,6 +67,8 @@ const ProductCard = (props) => {
   const price = props.price;
   const classes = useStyles();
   const dispatch = useDispatch();
+  const selector = useSelector((state) => state)
+  const role = getRole(selector)
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -96,32 +99,41 @@ const ProductCard = (props) => {
           {price}
         </Typography>
         </div>
-        <IconButton className={classes.icon} onClick={handleClick}>
-            <MoreVertIcon />
-        </IconButton>
-        <Menu
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem
-            onClick={() => {
-              dispatch(push('/product/edit/'+ props.id))
-              handleClose()
-            }}
-          >
-            編集する
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              dispatch(deleteProducts(props.id))
-              handleClose()
-          }}
-          >
-            削除する
-          </MenuItem>
-        </Menu>
+        {
+          (role === "admin") ? (
+          <>
+            <IconButton className={classes.icon} onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem
+                onClick={() => {
+                  dispatch(push('/product/edit/'+ props.id))
+                  handleClose()
+                }}
+              >    
+                編集する
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  dispatch(deleteProducts(props.id))
+                  handleClose()
+              }}
+              >
+                削除する
+              </MenuItem>
+            </Menu>
+          </>
+          ):(
+            <></>
+          )
+        }
+        
       </CardContent>
     </Card>
   )

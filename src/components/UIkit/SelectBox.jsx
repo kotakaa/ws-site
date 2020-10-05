@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
   formControl: {
-    marginBottom: 16,
+    marginBottom: 8,
     minWidth: 128,
     width: "100%"
   }

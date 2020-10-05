@@ -13,7 +13,6 @@ const TextInput = (props) => {
       rows={ props.rows }
       value={ props.value }
       type={ props.type }
-      inputRef={props.inputRef}
       required={ props.required }
       onChange={ props.onChange }
       name={props.name}

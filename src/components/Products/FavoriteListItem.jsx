@@ -39,6 +39,8 @@ const FavoriteListItem = (props) => {
   const address = props.product.address
   const id = props.product.productId
 
+  
+
   const removeProductFromFavorite = (favoriteId) => {
     return  db.collection('users').doc(uid)
               .collection('favorite').doc(favoriteId)

@@ -204,6 +204,12 @@
   display: none;
 }
 
+.error-message{
+  color: #f44336;
+  font-size: 0.75rem;
+  margin-left: 10px;
+}
+
 @media screen and (min-width: 576px) {
   /*********** Module Spacer ***********/
   .module-spacer--extra-extra-small {
