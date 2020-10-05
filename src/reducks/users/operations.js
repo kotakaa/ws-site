@@ -141,10 +141,6 @@ export const resetPassword = (email) => {
 
 export const adminSignUp = (username, email, password, confirmPassword) => {
   return async (dispatch) => {
-    if (username === "" || email === "" || password === "" || confirmPassword === "") {
-      alert("必須項目が未入力です")
-      return false
-    }
 
     if (password !== confirmPassword) {
       alert("パスワードが一致しません。もう一度お試しください。")
@@ -153,6 +149,11 @@ export const adminSignUp = (username, email, password, confirmPassword) => {
 
     if (password.length < 6) {
       alert('パスワードは6文字以上で入力してください。')
+      return false
+    }
+
+    if (!email.match(/[\w\-._]+@[\w\-._]+\.[A-Za-z]+/u)) {
+      alert("メールアドレスの形式が正しくありません。")
       return false
     }
 
