@@ -42,12 +42,17 @@ const CostResult = () => {
       })
   },[])
 
+  // コンマを追加する
+  function comma(num) {
+    return String(num).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+}
+
   return (
     <>
     <TableContainer component={Paper}>
       <h2 className="u-text__headline u-text-center main">費用チェックの結果</h2>
-      <div className="center">ゲストを {costResult.number}人 招待した場合</div>
-      <div className="center">結婚式にかかる費用は平均で　{costResult.result}円　です</div>
+      <div className="center">ゲストを { costResult.number }人 招待した場合</div>
+      <div className="center">結婚式にかかる費用は平均で&nbsp;{comma(costResult.result)}円&nbsp;です</div>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -58,67 +63,67 @@ const CostResult = () => {
         <TableBody>
           <TableRow>
             <TableCell component="th" scope="row">ドレス・タキシード</TableCell>
-            <TableCell align="right">{costResult.dress}</TableCell>
+            <TableCell align="right">{comma(costResult.dress)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">スナップ</TableCell>
-            <TableCell align="right">{costResult.snap}</TableCell>
+            <TableCell align="right">{comma(costResult.snap)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">映像</TableCell>
-            <TableCell align="right">{costResult.movie}</TableCell>
+            <TableCell align="right">{comma(costResult.movie)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">ブーケ</TableCell>
-            <TableCell align="right">{costResult.bouquet}</TableCell>
+            <TableCell align="right">{comma(costResult.bouquet)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">ヘアメイク・着付</TableCell>
-            <TableCell align="right">{costResult.makeAndDressing}</TableCell>
+            <TableCell align="right">{comma(costResult.makeAndDressing)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">お料理</TableCell>
-            <TableCell align="right">{costResult.dish}</TableCell>
+            <TableCell align="right">{comma(costResult.dish)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">ウエディングケーキ</TableCell>
-            <TableCell align="right">{costResult.cake}</TableCell>
+            <TableCell align="right">{comma(costResult.cake)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">装花</TableCell>
-            <TableCell align="right">{costResult.flowerDecoration}</TableCell>
+            <TableCell align="right">{comma(costResult.flowerDecoration)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">演出(音響含む)</TableCell>
-            <TableCell align="right">{costResult.staging}</TableCell>
+            <TableCell align="right">{comma(costResult.staging)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">引出物</TableCell>
-            <TableCell align="right">{costResult.gift}</TableCell>
+            <TableCell align="right">{comma(costResult.gift)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">司会者</TableCell>
-            <TableCell align="right">{costResult.value}</TableCell>
+            <TableCell align="right">{comma(costResult.value)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">挙式料</TableCell>
-            <TableCell align="right">{costResult.weddingFee}</TableCell>
+            <TableCell align="right">{comma(costResult.weddingFee)}</TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell component="th" scope="row">会場使用料</TableCell>
-            <TableCell align="right">{costResult.venueUsageFee}</TableCell>
+            <TableCell align="right">{comma(costResult.venueUsageFee)}</TableCell>
           </TableRow>
 
           <TableRow>

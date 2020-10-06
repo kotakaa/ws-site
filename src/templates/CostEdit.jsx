@@ -5,7 +5,6 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextInput, PrimaryButton } from '../components/UIkit';
 import { saveCost } from '../reducks/products/operations';
 import { db } from '../firebase/index';
 import AdminBanquetDetail from '../components/AdminCost/AdminBanquetDetail';
@@ -58,44 +57,59 @@ const CostEdit = () => {
         [dress2, setDress2] = useState(""),
         [dress3, setDress3] = useState(""),
         [dress4, setDress4] = useState(""),
+        [isDress, setIsDress] = useState(false),
         [snap1, setSnap1] = useState(""),
         [snap2, setSnap2] = useState(""),
         [snap3, setSnap3] = useState(""),
+        [isSnap, setIsSnap] = useState(false),
         [movie1, setMovie1] = useState(""),
         [movie2, setMovie2] = useState(""),
         [movie3, setMovie3] = useState(""),
+        [isMovie, setIsMovie] = useState(false),
         [bouquet1, setBouquet1] = useState(""),
         [bouquet2, setBouquet2] = useState(""),
         [bouquet3, setBouquet3] = useState(""),
         [bouquet4, setBouquet4] = useState(""),
+        [isBouquet, setIsBouquet] = useState(false),
         [makeAndDressing1, setMakeAndDressing1] = useState(""),
         [makeAndDressing2, setMakeAndDressing2] = useState(""),
         [makeAndDressing3, setMakeAndDressing3] = useState(""),
         [makeAndDressing4, setMakeAndDressing4] = useState(""),
+        [isMakeAndDressing, setIsMakeAndDressing] = useState(false),
         
         [dish1, setDish1] = useState(""),
         [dish2, setDish2] = useState(""),
         [dish3, setDish3] = useState(""),
         [dish4, setDish4] = useState(""),
+        [isDish, setIsDish] = useState(false),
         [cake1, setCake1] = useState(""),
         [cake2, setCake2] = useState(""),
         [cake3, setCake3] = useState(""),
         [cake4, setCake4] = useState(""),
+        [isCake, setIsCake] = useState(false),
         [flowerDecoration1, setFlowerDecoration1] = useState(""),
         [flowerDecoration2, setFlowerDecoration2] = useState(""),
         [flowerDecoration3, setFlowerDecoration3] = useState(""),
         [flowerDecoration4, setFlowerDecoration4] = useState(""),
+        [isFlowerDecoration, setIsFlowerDecoration] = useState(false),
         [staging1, setStaging1] = useState(""),
         [staging2, setStaging2] = useState(""),
         [staging3, setStaging3] = useState(""),
+        [isStaging, setIsStaging] = useState(false),
         [gift1, setGift1] = useState(""),
         [gift2, setGift2] = useState(""),
         [gift3, setGift3] = useState(""),
+        [isGift, setIsGift] = useState(false),
         [value1, setValue1] = useState(""),
         [value2, setValue2] = useState(""),
+        [isValue, setIsValue] = useState(false),
+
         [weddingFee, setWeddingFee] = useState(""),
+        [isWeddingFee, setIsWeddingFee] = useState(false),
         [tax, setTax] = useState(""),
-        [venueUsageFee, setVenueUsageFee] = useState("");
+        [isTax, setIsTax] = useState(false),
+        [venueUsageFee, setVenueUsageFee] = useState(""),
+        [isVenueUsageFee, setIsVenueUsageFee] = useState(false);
 
   // 固定費
   const inputWeddingFee = useCallback((event) => {
@@ -234,8 +248,139 @@ const CostEdit = () => {
     setValue2(event.target.value)
   }, [setValue2])
 
-  const errorMessage = (images, name, description, address, url, type, style, number, price, area) => {
-    return false
+  const errorMessageWedding = (dress1, dress2, dress3, dress4, snap1, snap2, snap3, 
+    movie1, movie2, movie3, bouquet1, bouquet2, bouquet3, bouquet4, 
+    makeAndDressing1, makeAndDressing2, makeAndDressing3, makeAndDressing4,
+    ) => {
+    // AdminWeddingDetail
+    if (dress1 === "" || dress2 === "" || dress3 === "" || dress4 === "") {
+      setIsDress(true)
+    }else{
+      setIsDress(false)
+    }
+    if (snap1 === "" || snap2 === "" || snap3 === "") {
+      setIsSnap(true)
+    }else{
+      setIsSnap(false)
+    }
+    if (movie1 === "" || movie2 === "" || movie3 === "") {
+      setIsMovie(true)
+    }else{
+      setIsMovie(false)
+    }
+    if (bouquet1 === "" || bouquet2 === "" || bouquet3 === "" || bouquet4 === "") {
+      setIsBouquet(true)
+    }else{
+      setIsBouquet(false)
+    }
+    if (makeAndDressing1 === "" || makeAndDressing2 === "" || makeAndDressing3 === "" || makeAndDressing4 === "") {
+      setIsMakeAndDressing(true)
+    }else{
+      setIsMakeAndDressing(false)
+    }
+
+
+    if (dress1 !== "" && dress2 !== "" && dress3 !== "" && dress4 !== "" && snap1 !== "" && snap2 !== "" && snap3 !== ""
+    && movie1 !== "" && movie2 !== "" && movie3 !== "" && bouquet1 !== "" && bouquet2 !== "" && bouquet3 !== "" && bouquet4 !== ""
+    && makeAndDressing1 !== "" && makeAndDressing2 !== "" && makeAndDressing3 !== "" && makeAndDressing4 !== "") {
+      handleNext()
+    }else{
+      return false,
+      window.scrollTo(0, 0)
+    }
+  }
+
+  const errorMessageBanquet = (
+    dish1, dish2, dish3, dish4, cake1, cake2, cake3, cake4,
+    flowerDecoration1, flowerDecoration2, flowerDecoration3, flowerDecoration4,
+    staging1, staging2, staging3, gift1, gift2, gift3, value1, value2
+  ) => {
+    // AdminBanquetDetail
+    if (dish1 === "" || dish2 === "" || dish3 === "" || dish4 === "") {
+      setIsDish(true)
+    }else{
+      setIsDish(false)
+    }
+    if (cake1 === "" || cake2 === "" || cake3 === "" || cake4 === "") {
+      setIsCake(true)
+    }else{
+      setIsCake(false)
+    }
+    if (cake1 === "" || cake2 === "" || cake3 === "" || cake4 === "") {
+      setIsCake(true)
+    }else{
+      setIsCake(false)
+    }
+    if (flowerDecoration1 === "" || flowerDecoration2 === "" || flowerDecoration3 === "" || flowerDecoration4 === "") {
+      setIsFlowerDecoration(true)
+    }else{
+      setIsFlowerDecoration(false)
+    }
+    if (staging1 === "" || staging2 === "" || staging3 === "") {
+      setIsStaging(true)
+    }else{
+      setIsStaging(false)
+    }
+    if (gift1 === "" || gift2 === "" || gift3 === "") {
+      setIsGift(true)
+    }else{
+      setIsGift(false)
+    }
+    if (value1 === "" || value2 === "") {
+      setIsValue(true)
+    }else{
+      setIsValue(false)
+    }
+
+    if(dish1 !== "" && dish2 !== "" && dish3 !== "" && dish4 !== "" && cake1 !== "" && cake2 !== "" && cake3 !== "" && cake4 !== ""
+    && flowerDecoration1 !== "" && flowerDecoration2 !== "" && flowerDecoration3 !== "" && flowerDecoration4 !== "" 
+    && staging1 !== "" && staging2 !== "" && staging3 !== "" && gift1 !== "" && gift2 !== "" && gift3 !== "" 
+    && value1 !== "" && value2 !== ""){
+      handleNext()
+    }else{
+      return false,
+      window.scrollTo(0, 0)
+    }
+  }
+  const errorMessageFixed = (weddingFee, tax, venueUsageFee) => {
+    if (weddingFee === "") {
+      setIsWeddingFee(true)
+    }else{
+      setIsWeddingFee(false)
+    }
+    if (tax === "") {
+      setIsTax(true)
+    }else{
+      setIsTax(false)
+    }
+    if (venueUsageFee === "") {
+      setIsVenueUsageFee(true)
+    }else{
+      setIsVenueUsageFee(false)
+    }
+
+    if(weddingFee !== "" && tax !== "" && venueUsageFee !== "" ){
+      dispatch(saveCost(
+        id,
+        dress1, dress2, dress3, dress4, 
+        snap1, snap2, snap3, 
+        movie1, movie2, movie3,
+        bouquet1 ,bouquet2, bouquet3, bouquet4,
+        makeAndDressing1, makeAndDressing2, makeAndDressing3, makeAndDressing4,
+        dish1, dish2, dish3, dish4,
+        cake1, cake2, cake3, cake4,
+        flowerDecoration1, flowerDecoration2, flowerDecoration3, flowerDecoration4,
+        staging1, staging2, staging3,
+        gift1, gift2, gift3,
+        value1, value1,
+        productId,
+        weddingFee,
+        tax,
+        venueUsageFee
+      ))
+    }else{
+      return false
+    }
   }
 
   useEffect(() => {
@@ -332,32 +477,30 @@ const CostEdit = () => {
     switch (activeStep) {
       case 0:
         return(
-          <Button variant="contained" color="primary" onClick={handleNext}>次に進む</Button>
+          <Button 
+            variant="contained" 
+            color="primary"  
+            onClick={() => errorMessageWedding(dress1, dress2, dress3, dress4, snap1, snap2, snap3, movie1, movie2, movie3, bouquet1, bouquet2, bouquet3, bouquet4, makeAndDressing1, makeAndDressing2, makeAndDressing3, makeAndDressing4)} >
+            次に進む
+          </Button>
         )
       case 1:
         return(
-          <Button variant="contained" color="primary" onClick={handleNext}>次に進む</Button>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={() => errorMessageBanquet(dish1, dish2, dish3, dish4, cake1, cake2, cake3, cake4, flowerDecoration1, flowerDecoration2, flowerDecoration3, flowerDecoration4, staging1, staging2, staging3, gift1, gift2, gift3, value1, value2)}>
+            次に進む
+          </Button>
         )
       case 2: 
         return(
-          <Button onClick={() => dispatch(saveCost(
-            id,
-            dress1, dress2, dress3, dress4, 
-            snap1, snap2, snap3, 
-            movie1, movie2, movie3,
-            bouquet1 ,bouquet2, bouquet3, bouquet4,
-            makeAndDressing1, makeAndDressing2, makeAndDressing3, makeAndDressing4,
-            dish1, dish2, dish3, dish4,
-            cake1, cake2, cake3, cake4,
-            flowerDecoration1, flowerDecoration2, flowerDecoration3, flowerDecoration4,
-            staging1, staging2, staging3,
-            gift1, gift2, gift3,
-            value1, value1,
-            productId,
-            weddingFee,
-            tax,
-            venueUsageFee
-          ))} variant="contained" color="primary">保存する</Button>
+            <Button 
+              onClick={() => errorMessageFixed(weddingFee, tax, venueUsageFee)} 
+              variant="contained" 
+              color="primary">
+              保存する
+            </Button>
         )
       default:
         return 'Unknown stepIndex';
@@ -377,18 +520,21 @@ const CostEdit = () => {
                   inputDress2={inputDress2}
                   inputDress3={inputDress3}
                   inputDress4={inputDress4}
+                  isDress={isDress}
                   snap1={snap1}
                   snap2={snap2}
                   snap3={snap3}
                   inputSnap1={inputSnap1}
                   inputSnap2={inputSnap2}
                   inputSnap3={inputSnap3}
+                  isSnap={isSnap}
                   movie1={movie1}
                   movie2={movie2}
                   movie3={movie3}
                   inputMovie1={inputMovie1}
                   inputMovie2={inputMovie2}
                   inputMovie3={inputMovie3}
+                  isMovie={isMovie}
                   bouquet1={bouquet1}
                   bouquet2={bouquet2}
                   bouquet3={bouquet3}
@@ -397,6 +543,7 @@ const CostEdit = () => {
                   inputBouquet2={inputBouquet2}
                   inputBouquet3={inputBouquet3}
                   inputBouquet4={inputBouquet4}
+                  isBouquet={isBouquet}
                   makeAndDressing1={makeAndDressing1}
                   makeAndDressing2={makeAndDressing2}
                   makeAndDressing3={makeAndDressing3}
@@ -405,6 +552,7 @@ const CostEdit = () => {
                   inputMakeAndDressing2={inputMakeAndDressing2}
                   inputMakeAndDressing3={inputMakeAndDressing3}
                   inputMakeAndDressing4={inputMakeAndDressing4}
+                  isMakeAndDressing={isMakeAndDressing}
                 />;
       case 1:
         return <AdminBanquetDetail
@@ -416,6 +564,7 @@ const CostEdit = () => {
                   inputDish2={inputDish2}
                   inputDish3={inputDish3}
                   inputDish4={inputDish4}
+                  isDish={isDish}
                   cake1={cake1}
                   cake2={cake2}
                   cake3={cake3}
@@ -424,6 +573,7 @@ const CostEdit = () => {
                   inputCake2={inputCake2}
                   inputCake3={inputCake3}
                   inputCake4={inputCake4}
+                  isCake={isCake}
                   flowerDecoration1={flowerDecoration1}
                   flowerDecoration2={flowerDecoration2}
                   flowerDecoration3={flowerDecoration3}
@@ -432,31 +582,38 @@ const CostEdit = () => {
                   inputFlowerDecoration2={inputFlowerDecoration2}
                   inputFlowerDecoration3={inputFlowerDecoration3}
                   inputFlowerDecoration4={inputFlowerDecoration4}
+                  isFlowerDecoration={isFlowerDecoration}
                   staging1={staging1}
                   staging2={staging2}
                   staging3={staging3}
                   inputStaging1={inputStaging1}
                   inputStaging2={inputStaging2}
                   inputStaging3={inputStaging3}
+                  isStaging={isStaging}
                   gift1={gift1}
                   gift2={gift2}
                   gift3={gift3}
                   inputGift1={inputGift1}
                   inputGift2={inputGift2}
                   inputGift3={inputGift3}
+                  isGift={isGift}
                   value1={value1}
                   value2={value2}
                   inputValue1={inputValue1}
                   inputValue2={inputValue2}
+                  isValue={isValue}
                 />;
       case 2:
         return <AdminFixedCost
                   weddingFee={weddingFee}
                   inputWeddingFee={inputWeddingFee}
+                  isWeddingFee={isWeddingFee}
                   tax={tax}
                   inputTax={inputTax}
+                  isTax={isTax}
                   venueUsageFee={venueUsageFee}
                   inputVenueUsageFee={inputVenueUsageFee}
+                  isVenueUsageFee={isVenueUsageFee}
                 />;
       default:
         return 'Unknown stepIndex';

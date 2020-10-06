@@ -59,6 +59,8 @@ const WeddingDetail = (props) => {
           required={ true }
           select={ props.setDress }
         />
+        { props.isDress && <span className="error-message">ドレス・タキシードの項目を選択してください</span> }
+
         <SelectBox 
           label={ "スナップ" }
           value={ props.snap }
@@ -66,6 +68,8 @@ const WeddingDetail = (props) => {
           required={ true }
           select={ props.setSnap }
         />
+        { props.isSnap && <span className="error-message">スナップの項目を選択してください</span> }
+
         <SelectBox 
           label={ "映像" }
           value={ props.movie }
@@ -73,6 +77,7 @@ const WeddingDetail = (props) => {
           required={ true }
           select={ props.setMovie }
         />
+        { props.isMovie && <span className="error-message">映像の項目を選択してください</span> }
         <SelectBox 
           label={ "ブーケ" }
           value={ props.bouquet }
@@ -80,6 +85,7 @@ const WeddingDetail = (props) => {
           required={ true }
           select={ props.setBouquet }
         />
+        { props.isBouquet && <span className="error-message">ブーケの項目を選択してください</span> }
         <SelectBox 
           label={ "ヘアメイク・着付" }
           value={ props.makeAndDressing }
@@ -87,6 +93,7 @@ const WeddingDetail = (props) => {
           required={ true }
           select={ props.setMakeAndDressing }
         />
+        { props.isMakeAndDressing && <span className="error-message">ヘアメイク・着付の項目を選択してください</span> }
 
         
       </div>

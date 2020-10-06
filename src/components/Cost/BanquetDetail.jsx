@@ -66,6 +66,8 @@ const BanquetDetail = (props) => {
           required={ true }
           onChange={ props.inputNumber }
         />
+        { props.isNumber && <span className="error-message">ゲストの人数を入力してください</span> }
+
         <SelectBox 
           label={ "お料理" }
           value={ props.dish }
@@ -73,6 +75,8 @@ const BanquetDetail = (props) => {
           required={ true }
           select={ props.setDish }
         />
+        { props.isDish && <span className="error-message">お料理を選択してください</span> }
+
         <SelectBox 
           label={ "ウエディングケーキ" }
           value={ props.cake }
@@ -80,6 +84,8 @@ const BanquetDetail = (props) => {
           required={ true }
           select={ props.setCake }
         />
+        { props.isCake && <span className="error-message">ウエディングケーキを選択してください</span> }
+
         <SelectBox 
           label={ "装花" }
           value={ props.flowerDecoration }
@@ -87,6 +93,8 @@ const BanquetDetail = (props) => {
           required={ true }
           select={ props.setFlowerDecoration }
         />
+        { props.isFlowerDecoration && <span className="error-message">装花を選択してください</span> }
+
         <SelectBox 
           label={ "演出(音響含む)" }
           value={ props.staging }
@@ -94,6 +102,8 @@ const BanquetDetail = (props) => {
           required={ true }
           select={ props.setStaging }
         />
+        { props.isStaging && <span className="error-message">演出(音響含む)を選択してください</span> }
+
         <SelectBox 
           label={ "引出物" }
           value={ props.gift }
@@ -101,12 +111,15 @@ const BanquetDetail = (props) => {
           required={ true }
           select={ props.setGift }
         />
+        { props.isGift && <span className="error-message">引出物を選択してください</span> }
         
         <FormLabel component="legend" >司会者</FormLabel>
         <RadioGroup aria-label="chairperson" name="chairperson" value={props.radio} onChange={props.handleChange} >
           <FormControlLabel value="value1" control={<Radio color='primary'/>} label="必要" />
           <FormControlLabel value="value2" control={<Radio color='primary'/>} label="必要じゃない" />
         </RadioGroup>
+        { props.isValue && <span className="error-message">司会者を選択してください</span> }
+
       </div>
     </section>
   )

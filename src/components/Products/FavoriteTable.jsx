@@ -23,8 +23,6 @@ const FavoriteTable = (props) => {
   const classes = useStyles();
   const selector = useSelector((state) => state)
   const productInFavorite = getProductsInFavorite(selector)
-  const product = props.product
-  let result = []
   
   return(
     <TableContainer>
@@ -32,33 +30,9 @@ const FavoriteTable = (props) => {
         <TableBody>
               <TableRow>
                 <TableCell className={classes.iconCell}>
-                  
-                    {/* { productInFavorite.map( p => 
-                      (p.productId === product.id) ? (
-                        result = true
-                      ) : (
-                        result = false
-                      )
-                    )} */}
-
-                    { productInFavorite.length === 0 ? (
-                      <IconButton onClick={() => props.addFavorite()}>
-                        <FavoriteBorderIcon />
-                      </IconButton>
-                    ):(
-                      (productInFavorite.productId !== product.id) &&(
-                        <IconButton onClick={() => props.addFavorite()}>
-                          <FavoriteBorderIcon />
-                        </IconButton>
-                      )
-                    )
-                  }
-
-                    {/* { productInFavorite.length === 0 &&(
-                      <IconButton onClick={() => props.addFavorite()}>
-                        <FavoriteBorderIcon />
-                      </IconButton>
-                    )} */}
+                  <IconButton onClick={() => props.addFavorite()}>
+                    <FavoriteBorderIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
         </TableBody>

@@ -13,6 +13,7 @@ const AdminWeddingDetail = (props) => {
       </div>
       <div className="c-section-container">
       <h2 className="u-text u-text-left">ドレス・タキシード</h2>
+      { props.isDress && <span className="error-message">ドレス・タキシードの全ての項目を入力してください</span> }
         <TextInput 
           label={ "豪華にしたい" }
           fullWidth={ true }
@@ -55,6 +56,7 @@ const AdminWeddingDetail = (props) => {
         />
         <div className="module-spacer--small"></div>
         <h2 className="u-text u-text-left">スナップ</h2>
+        { props.isSnap && <span className="error-message">スナップの全ての項目を入力してください</span> }
         <TextInput 
           label={ "こだわりたい" }
           fullWidth={ true }
@@ -88,6 +90,7 @@ const AdminWeddingDetail = (props) => {
         <div className="module-spacer--small"></div>
 
         <h2 className="u-text u-text-left">映像</h2>
+        { props.isMovie && <span className="error-message">映像の全ての項目を入力してください</span> }
         <TextInput 
           label={ "こだわりたい" }
           fullWidth={ true }
@@ -121,6 +124,7 @@ const AdminWeddingDetail = (props) => {
         <div className="module-spacer--small"></div>
 
         <h2 className="u-text u-text-left">ブーケ</h2>
+        { props.isBouquet && <span className="error-message">ブーケの全ての項目を入力してください</span> }
         <TextInput 
           label={ "豪華にしたい" }
           fullWidth={ true }
@@ -164,6 +168,7 @@ const AdminWeddingDetail = (props) => {
         <div className="module-spacer--small"></div>
 
         <h2 className="u-text u-text-left">ヘアメイク・着付</h2>
+        { props.isMakeAndDressing && <span className="error-message">ヘアメイク・着付の全ての項目を入力してください</span> }
         <TextInput 
           label={ "豪華にしたい"}
           fullWidth={ true }

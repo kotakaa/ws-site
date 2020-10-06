@@ -206,11 +206,10 @@ export const costResult = (value, dress, snap, movie, bouquet, makeAndDressing, 
     const taxResult = tax * 0.01
     const totalTax = total * taxResult
     const totalResult = totalTax + total
+    const result = Math.round(totalResult)
 
-    console.log(numberResult);
-    console.log(totalResult);
     const addResult = {
-      result: totalResult,
+      result: result,
       updated_at: timestamp,
       value: Number(Value),
       dress: Number(Dress),

@@ -68,20 +68,32 @@ const StepForm = () => {
     setActiveStep(0);
   };
 
-  const [value, setValue] = useState(""),
-        [radio, setRadio] = useState(""),
-        [dress, setDress] = useState(""),
+  const [dress, setDress] = useState(""),
+        [isDress, setIsDress] = useState(false),
         [snap, setSnap] = useState(""),
+        [isSnap, setIsSnap] = useState(false),
         [movie, setMovie] = useState(""),
+        [isMovie, setIsMovie] = useState(false),
         [bouquet, setBouquet] = useState(""),
+        [isBouquet, setIsBouquet] = useState(false),
         [makeAndDressing, setMakeAndDressing] = useState(""),
-        
+        [isMakeAndDressing, setIsMakeAndDressing] = useState(false),
+
+        [value, setValue] = useState(""),
+        [isValue, setIsValue] = useState(false),
+        [radio, setRadio] = useState(""),
         [number, setNumber] = useState(""),
+        [isNumber, setIsNumber] = useState(false),
         [dish, setDish] = useState(""),
+        [isDish, setIsDish] = useState(false),
         [cake, setCake] = useState(""),
+        [isCake, setIsCake] = useState(false),
         [flowerDecoration, setFlowerDecoration] = useState(""),
+        [isFlowerDecoration, setIsFlowerDecoration] = useState(false),
         [staging, setStaging] = useState(""),
-        [gift, setGift] = useState("");
+        [isStaging, setIsStaging] = useState(false),
+        [gift, setGift] = useState(""),
+        [isGift, setIsGift] = useState(false);
 
   console.log(value, number ,dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee);
   const handleChange = (event) => {
@@ -100,7 +112,87 @@ const StepForm = () => {
     }
   },[radio])
 
-  console.log(value);
+  const errorMessageWedding = (dress, snap, movie, bouquet, makeAndDressing) => {
+    if (dress === "" ) {
+      setIsDress(true)
+    }else{
+      setIsDress(false)
+    }
+    if (snap === "") {
+      setIsSnap(true)
+    }else{
+      setIsSnap(false)
+    }
+    if (movie === "" ) {
+      setIsMovie(true)
+    }else{
+      setIsMovie(false)
+    }
+    if (bouquet === "") {
+      setIsBouquet(true)
+    }else{
+      setIsBouquet(false)
+    }
+    if (makeAndDressing === "" ) {
+      setIsMakeAndDressing(true)
+    }else{
+      setIsMakeAndDressing(false)
+    }
+
+    if (dress !== "" && snap !== "" && movie !== "" && bouquet !== "" && makeAndDressing !== "" ) {
+      handleNext()
+    }else{
+      return false,
+      window.scrollTo(0, 0)
+    }
+  }
+
+
+  const errorMessageBanquet = (number, dish, cake, flowerDecoration, staging, gift, value) => {
+    if (number === "" ) {
+      setIsNumber(true)
+    }else{
+      setIsNumber(false)
+    }
+    if (dish === "" ) {
+      setIsDish(true)
+    }else{
+      setIsDish(false)
+    }
+    if (cake === "") {
+      setIsCake(true)
+    }else{
+      setIsCake(false)
+    }
+    if (flowerDecoration === "" ) {
+      setIsFlowerDecoration(true)
+    }else{
+      setIsFlowerDecoration(false)
+    }
+    if (staging === "") {
+      setIsStaging(true)
+    }else{
+      setIsStaging(false)
+    }
+    if (gift === "" ) {
+      setIsGift(true)
+    }else{
+      setIsGift(false)
+    }
+    if (value === "" ) {
+      setIsValue(true)
+    }else{
+      setIsValue(false)
+    }
+
+    if (number !== "" && dish !== "" && cake !== "" && flowerDecoration !== "" && staging !== "" && gift !== "" && value !== "" ) {
+      handleNext()
+    }else{
+      return false,
+      window.scrollTo(0, 0)
+    }
+  }
+
 
   function getStepContent(stepIndex) {
     switch (stepIndex) {
@@ -116,6 +208,11 @@ const StepForm = () => {
                   setMovie={setMovie}
                   setBouquet={setBouquet}
                   setMakeAndDressing={setMakeAndDressing}
+                  isDress={isDress}
+                  isSnap={isSnap}
+                  isMovie={isMovie}
+                  isBouquet={isBouquet}
+                  isMakeAndDressing={isMakeAndDressing}
                 />;
       case 1:
         return <BanquetDetail
@@ -133,6 +230,13 @@ const StepForm = () => {
                   setStaging={setStaging}
                   setGift={setGift}
                   handleChange={handleChange}
+                  isValue={isValue}
+                  isNumber={isNumber}
+                  isDish={isDish}
+                  isCake={isCake}
+                  isFlowerDecoration={isFlowerDecoration}
+                  isStaging={isStaging}
+                  isGift={isGift}
                 />;
       case 2:
         return <FixedCost />;
@@ -140,6 +244,41 @@ const StepForm = () => {
         return 'Unknown stepIndex';
     }
   }
+
+  function getStepButton(activeStep) {
+    switch (activeStep) {
+      case 0:
+        return(
+          <Button 
+            variant="contained" 
+            color="primary"  
+            onClick={() => errorMessageWedding(dress, snap, movie, bouquet, makeAndDressing)} >
+            次に進む
+          </Button>
+        )
+      case 1:
+        return(
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={() => errorMessageBanquet(number, dish, cake, flowerDecoration, staging, gift, value)}>
+            次に進む
+          </Button>
+        )
+      case 2: 
+        return(
+            <Button 
+              onClick={() => dispatch(costResult(value, dress, snap, movie, bouquet, makeAndDressing, dish, number, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee))} 
+              variant="contained" 
+              color="primary">
+              費用をチェックする
+            </Button>
+        )
+      default:
+        return 'Unknown stepIndex';
+    }
+  }
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} alternativeLabel>
@@ -168,11 +307,8 @@ const StepForm = () => {
                 戻る
               </Button>
             )}
-              {activeStep === steps.length - 1 ? (
-                <Button onClick={() => dispatch(costResult(value, dress, snap, movie, bouquet, makeAndDressing, dish, number, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee))} variant="contained" color="primary">費用をチェックする</Button>
-              ) : (
-                <Button variant="contained" color="primary" onClick={handleNext}>次に進む</Button>
-              )}
+
+            <span>{getStepButton(activeStep)}</span>
             </div>
           </div>
         )}
@@ -181,3 +317,4 @@ const StepForm = () => {
   );
 }
 export default StepForm;
+
