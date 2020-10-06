@@ -49,7 +49,6 @@ const ProductDetail = () => {
   const classes = useStyle();
   const selector = useSelector((state) => state)
   const role = getRole(selector)
-  console.log(role);
   const path = selector.router.location.pathname
   const id = path.split('/product/detail/')[1]
   const [product, setProduct] = useState(null);

@@ -7,6 +7,7 @@ import { getIsSinedIn } from "../../reducks/users/selectors";
 import logo from "../../assets/img/icons/wedding-logo.png";
 import {push} from "connected-react-router"
 import {HeaderMenu, MenuDrawer, BeforeHeaderMenu} from "./index"
+import { useEffect } from 'react';
 
 const useStyles = makeStyles({
   root: {
@@ -31,7 +32,7 @@ const Header = () => {
   const selector = useSelector((state) => state)
   const isSignedIn = getIsSinedIn(selector)
   const dispatch = useDispatch()
-
+  const path = selector.router.location.pathname
   const [open, setOpen] = useState(false);
 
   const handleDrawerToggle = useCallback((event)=>{
@@ -41,6 +42,26 @@ const Header = () => {
     setOpen(!open)
   },[setOpen, open])
 
+  // ログアウト時にfalseに変更
+  useEffect(() => {
+    setOpen(false)
+  },[selector.router.location.pathname])
+
+  if (path === "/") {
+    return(
+      <div className={classes.root}>
+        <AppBar position="fixed" className={classes.memuBar}>
+          <Toolbar className={classes.toolBar}>
+            <img 
+              src={logo} alt="yuuka logo" width="160px"
+            />
+          </Toolbar>
+        </AppBar>
+        <MenuDrawer open={open} onClose={handleDrawerToggle}/>
+      </div>
+    )
+  }
+
   return(
     <>
     {isSignedIn ? (
@@ -49,7 +70,7 @@ const Header = () => {
           <Toolbar className={classes.toolBar}>
             <img 
               src={logo} alt="yuuka logo" width="160px"
-              onClick={() => dispatch(push('/'))}
+              onClick={() => dispatch(push('/product'))}
             />
             
               <div className={classes.iconButtons}>

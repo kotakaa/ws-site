@@ -16,7 +16,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import {push} from "connected-react-router";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {signOut} from "../../reducks/users/operations";
 import {TextInput} from "../UIkit";
 import { db } from "../../firebase/index";
@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
 const MenuDrawer = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const selector = useSelector((state) => state)
+  const path = selector.router.location.pathname
+
   const {container} = props
   const [keyword, setKeyword] = useState("");
   const [styleFilters, setStyleFilters] = useState([]);
@@ -179,34 +182,39 @@ const MenuDrawer = (props) => {
           </ListItem>
         </List>
         <Divider/>
-        <ListItem button onClick={styleHandleClick}>
-          <ListItemText primary="挙式スタイル" />
-          {styleOpen ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={styleOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {styleFilters.map( filter => (
-              <ListItem button key={filter.id} onClick={(event) => filter.func(event, filter.value)}>
-                <ListItemText primary={filter.label} />
-              </ListItem>
-            ))}
-          </List>
-        </Collapse>
-        <Divider/>
-        <ListItem button onClick={typeHandleClick}>
-          <ListItemText primary="式場タイプ" />
-          {typeOpen ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={typeOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {typeFilters.map( filter => (
-              <ListItem button key={filter.id} onClick={(event) => filter.func(event, filter.value)}>
-                <ListItemText primary={filter.label} />
-              </ListItem>
-            ))}
-          </List>
-        </Collapse>
-        <Divider/>
+
+      { path === "/product" && (
+        <>
+          <ListItem button onClick={styleHandleClick}>
+            <ListItemText primary="挙式スタイル" />
+            {styleOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={styleOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {styleFilters.map( filter => (
+                <ListItem button key={filter.id} onClick={(event) => filter.func(event, filter.value)}>
+                  <ListItemText primary={filter.label} />
+                </ListItem>
+              ))}
+            </List>
+          </Collapse>
+          <Divider/>
+          <ListItem button onClick={typeHandleClick}>
+            <ListItemText primary="式場タイプ" />
+            {typeOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={typeOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {typeFilters.map( filter => (
+                <ListItem button key={filter.id} onClick={(event) => filter.func(event, filter.value)}>
+                  <ListItemText primary={filter.label} />
+                </ListItem>
+              ))}
+            </List>
+          </Collapse>
+          <Divider/>
+        </>
+      )}
       </div>
       </Drawer>
     </nav>

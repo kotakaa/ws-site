@@ -24,6 +24,8 @@ const FavoriteList = () => {
   const backToHome = useCallback(() => {
     dispatch(push('/product'))
   },[])
+  console.log(productInFavorite);
+
   return(
     <section className="c-section-wrapin">
       <div className="main">
@@ -31,9 +33,15 @@ const FavoriteList = () => {
           お気に入りリスト
         </h2>
         <List className={classes.root}>
-          { productInFavorite.length > 0 && (
-            productInFavorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
-          ) }
+          {  typeof productInFavorite === 'undefined' ? (
+            <></>
+          ) : (
+            productInFavorite.length > 0 ? (
+              productInFavorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
+            ) : (
+              <></>
+            )
+          )}
         </List>
         <div className="module-spacer--medium" />
         <div className="p-grid__column">
