@@ -21,6 +21,7 @@ import {signOut} from "../../reducks/users/operations";
 import {TextInput} from "../UIkit";
 import { db } from "../../firebase/index";
 import { getProduct } from '../../reducks/products/operations';
+import { getRole } from '../../reducks/users/selectors';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +49,7 @@ const MenuDrawer = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
+  const role = getRole(selector)
   const path = selector.router.location.pathname
 
   const {container} = props

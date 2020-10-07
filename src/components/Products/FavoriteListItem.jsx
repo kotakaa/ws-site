@@ -3,12 +3,8 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import { getUserId } from '../../reducks/users/selectors';
 import { makeStyles } from '@material-ui/styles';
-import { useSelector, useDispatch } from 'react-redux';
-import { db } from '../../firebase/index';
+import { useDispatch } from 'react-redux';
 import { PrimaryButton } from '../UIkit';
 import { push } from 'connected-react-router';
 
@@ -28,8 +24,6 @@ const useStyles = makeStyles({
 })
 
 const FavoriteListItem = (props) => {
-  const selector = useSelector((state) => state)
-  const uid = getUserId(selector)
   const dispatch = useDispatch();
 
   const classes = useStyles()
@@ -39,16 +33,9 @@ const FavoriteListItem = (props) => {
   const address = props.product.address
   const id = props.product.productId
 
-  
-
-  const removeProductFromFavorite = (favoriteId) => {
-    return  db.collection('users').doc(uid)
-              .collection('favorite').doc(favoriteId)
-              .delete()
-  }
 
   const goToProductDetail = useCallback((id) => {
-    dispatch(push('/product/' + id))
+    dispatch(push('/product/detail/' + id))
   },[])
 
   return(
@@ -63,16 +50,12 @@ const FavoriteListItem = (props) => {
             secondary={description}
           />
           <ListItemText 
-            primary={address} 
           />
         </div>
         <PrimaryButton 
           label={"詳細"} 
           onClick={() => goToProductDetail(id)}
         />
-        <IconButton onClick={() => removeProductFromFavorite(props.product.favoriteId)}>
-          <DeleteIcon />
-        </IconButton>
         <Divider />
       </ListItem>
     </>

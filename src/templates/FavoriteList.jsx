@@ -1,11 +1,14 @@
 import React, { useCallback } from 'react';
 import List from '@material-ui/core/List';
-import { useSelector, useDispatch } from 'react-redux';
-import { getProductsInFavorite } from '../reducks/users/selectors';
+import { useDispatch, useSelector } from 'react-redux';
 import { FavoriteListItem } from '../components/Products';
 import { GrayButton } from '../components/UIkit';
 import { push } from 'connected-react-router';
 import { makeStyles } from '@material-ui/core';
+import { useEffect } from 'react';
+import { db } from '../firebase';
+import { getUserId } from '../reducks/users/selectors';
+import { useState } from 'react';
 
 const useStyles = makeStyles({
   root: {
@@ -18,13 +21,25 @@ const useStyles = makeStyles({
 const FavoriteList = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const selector = useSelector((state) => state)
-  const productInFavorite = getProductsInFavorite(selector)
+  const selector = useSelector((state) => state);
+  const uid = getUserId(selector)
+
+  const [favorite, setavorite] = useState(null);
 
   const backToHome = useCallback(() => {
     dispatch(push('/product'))
   },[])
-  console.log(productInFavorite);
+
+  useEffect(() => {
+    db.collection("users").doc(uid).collection("favorite").get().then(function(querySnapshot) {
+      const data = querySnapshot.docs.map(function(doc) {
+        return doc.data()
+      })
+      setavorite(data)
+    })
+  },[])
+
+  console.log(favorite);
 
   return(
     <section className="c-section-wrapin">
@@ -33,15 +48,17 @@ const FavoriteList = () => {
           お気に入りリスト
         </h2>
         <List className={classes.root}>
-          {  typeof productInFavorite === 'undefined' ? (
-            <></>
-          ) : (
-            productInFavorite.length > 0 ? (
-              productInFavorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
-            ) : (
+          {
+            (favorite === null) ? (
               <></>
+            ):(
+              favorite.length > 0 ? (
+                favorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
+              ) : (
+                <></>
+              )
             )
-          )}
+          }
         </List>
         <div className="module-spacer--medium" />
         <div className="p-grid__column">

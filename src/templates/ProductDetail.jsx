@@ -54,6 +54,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [cost, setCost] = useState(null);
   const dispatch = useDispatch()
+
   useEffect(() => {
     db.collection('products').doc(id).get()
       .then(doc => {
@@ -65,38 +66,6 @@ const ProductDetail = () => {
         }
       })
   },[])
-  const addFavorite = useCallback(() => {
-    const timestamp = FirebaseTimestamp.now()
-    const productInFavorite = getProductsInFavorite(selector)
-    productInFavorite.map( p => {
-        if (p.productId === product.id) {
-          return false
-        }else{
-          dispatch(addProductToFavorite({
-            added_at: timestamp,
-            name: product.name,
-            description: product.description,
-            address: product.address,
-            images: product.images,
-            url: product.url,
-            productId: product.id,
-            favorited: true
-          }))
-        }
-    })
-    if (productInFavorite.length === 0) {
-      dispatch(addProductToFavorite({
-        added_at: timestamp,
-        name: product.name,
-        description: product.description,
-        address: product.address,
-        images: product.images,
-        url: product.url,
-        productId: product.id,
-        favorited: true
-      }))
-    }
-  },[product])
 
 
   return(
@@ -112,9 +81,8 @@ const ProductDetail = () => {
             <p>{product.url}</p>
             <p>{product.address}</p>
             <FavoriteTable 
-              addFavorite={addFavorite}
               product={product}
-              />
+            />
               {
                 (role === "admin") ? (
                   <PrimaryButton
