@@ -64,7 +64,6 @@ const MenuDrawer = (props) => {
   const [styleOpen, setStyleOpen] = useState(true);
   const [typeOpen, setTypeOpen] = useState(true);
 
-console.log(role);
   const styleHandleClick = () => {
     setStyleOpen(!styleOpen);
   };

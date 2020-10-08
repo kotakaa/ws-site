@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { ImageSwiper, FavoriteTable } from '../components/Products';
 import { addProductToFavorite } from '../reducks/users/operations';
 import HTMLReactParser from 'html-react-parser';
-import { getProductsInFavorite, getRole } from '../reducks/users/selectors';
+import { getProductsInFavorite, getRole, getUserId } from '../reducks/users/selectors';
 import { push } from 'connected-react-router';
 import { PrimaryButton } from '../components/UIkit';
 
@@ -48,10 +48,12 @@ const returnCodeToBr = (description) => {
 const ProductDetail = () => {
   const classes = useStyle();
   const selector = useSelector((state) => state)
+  const uid = getUserId(selector)
   const role = getRole(selector)
   const path = selector.router.location.pathname
   const id = path.split('/product/detail/')[1]
   const [product, setProduct] = useState(null);
+  const [data, setData] = useState([]);
   const [cost, setCost] = useState("");
   const dispatch = useDispatch()
 
@@ -59,11 +61,7 @@ const ProductDetail = () => {
     db.collection('products').doc(id).get()
       .then(doc => {
         const data = doc.data()
-        if (typeof data === 'undefined') {
-          setProduct(null)
-        }else{
-          setProduct(data)
-        }
+        setProduct(data)
         if (typeof data !== 'undefined') {
           if (data.costId !== "") {
             const costId = data.costId
@@ -71,7 +69,20 @@ const ProductDetail = () => {
           }
         }
       })
+
+    db.collection("users").doc(uid).collection("products").get().then(function(querySnapshot) {
+      const data = querySnapshot.docs.map(function(doc) {
+        return doc.data()
+      })
+      setData(data)
+    })
   },[])
+
+  if (data === null) {
+    return(
+      <></>
+    )
+  }
 
   return(
     <section className="c-section-detail">
@@ -90,18 +101,21 @@ const ProductDetail = () => {
             />
               {
                 (role === "admin") ? (
-                  (cost === null || typeof cost === 'undefined') ? (
-                    <PrimaryButton
-                      label={ "費用チェックを登録する" }
-                      onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit'))}
-                    />
-                  ):(
-                    <PrimaryButton
-                      label={ "費用チェックを編集する" }
-                      onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit/' + cost ))}
-                    />
-                    
-                  )
+                  data.map(doc => {
+                    return (doc.id === id) && (
+                      (cost === null || typeof cost === 'undefined') ? (
+                        <PrimaryButton
+                          label={ "費用チェックを登録する" }
+                          onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit'))}
+                        />
+                      ):(
+                        <PrimaryButton
+                          label={ "費用チェックを編集する" }
+                          onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit/' + cost ))}
+                        />
+                        
+                      )
+                    )})
                 ):(
                   <PrimaryButton
                     label={ "費用チェックをする" }

@@ -180,7 +180,6 @@ export const saveCost = (
 export const deleteProducts = (id, uid) => {
   return async (dispatch, getState) => {
     productsRef.doc(id).delete()
-    // db.collection('users').doc(uid).collection('products')
       .then(() => {
         const prevProducts = getState().products.list;
         const nextProducts = prevProducts.filter(product => product.id !== id)

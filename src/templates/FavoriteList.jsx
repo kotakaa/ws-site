@@ -39,7 +39,6 @@ const FavoriteList = () => {
     })
   },[])
 
-  console.log(favorite);
 
   return(
     <section className="c-section-wrapin">
@@ -47,19 +46,23 @@ const FavoriteList = () => {
         <h2 className="u-text__headline">
           お気に入りリスト
         </h2>
-        <List className={classes.root}>
-          {
-            (favorite === null) ? (
-              <></>
-            ):(
-              favorite.length > 0 ? (
-                favorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
-              ) : (
-                <></>
-              )
-            )
-          }
-        </List>
+        {
+          favorite.length === 0 ? (
+              <h1>お気に入りした式場はありません</h1>
+          ):(
+            <List className={classes.root}>
+              {
+                (favorite === null) ? (
+                  <></>
+                ):(
+                  favorite.length > 0 && (
+                    favorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
+                  )
+                )
+              }
+            </List>
+          )
+        }
         <div className="module-spacer--medium" />
         <div className="p-grid__column">
           <GrayButton

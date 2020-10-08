@@ -44,9 +44,13 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     paddingTop: '100%'
   },
-  price: {
+  area: {
+    fontSize: 13
+  },
+  name: {
+    fontSize: 18,
     color: theme.palette.secondary.dark,
-    fontSize: 16
+    paddingBottom: 2,
   },
   productName: {
     boxOrient: 'vertical',
@@ -66,12 +70,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ProductCard = (props) => {
-  const price = props.price;
   const classes = useStyles();
   const dispatch = useDispatch();
   const selector = useSelector((state) => state)
   const uid = getUserId(selector)
-  const role = getRole(selector)
+
 
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -92,9 +95,6 @@ const ProductCard = (props) => {
     })
   },[])
 
-
-
-
   if (data === null) {
     return(
       <></>
@@ -114,39 +114,49 @@ const ProductCard = (props) => {
               </LazyLoad>
               <CardContent className={classes.content}>
                 <div onClick={() => dispatch(push('/product/detail/'+ props.id))}>
-                <Typography color="textSecondary" component="p">
+                <Typography color="textSecondary" component="p" className={classes.name}>
                   {props.name}
                 </Typography>
-                <Typography component="p" className={classes.price}>
-                  {price}
+                <Typography component="p" className={classes.area}>
+                  {props.area}
                 </Typography>
                 </div>
-              <IconButton className={classes.icon} onClick={handleClick}>
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem
-                  onClick={() => {
-                    dispatch(push('/product/edit/'+ props.id))
-                    handleClose()
-                  }}
-                >    
-                  編集する
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    dispatch(deleteProducts(props.id, uid))
-                    handleClose()
-                }}
-                >
-                  削除する
-                </MenuItem>
-              </Menu>
+          {
+            data.map(doc => {
+              return (doc.id === props.id) ? (
+                <>
+                  <IconButton className={classes.icon} onClick={handleClick}>
+                    <MoreVertIcon />
+                  </IconButton>
+                    <Menu
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                    >
+                    <MenuItem
+                      onClick={() => {
+                        dispatch(push('/product/edit/'+ props.id))
+                        handleClose()
+                      }}
+                    >    
+                      編集する
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        dispatch(deleteProducts(props.id))
+                        handleClose()
+                    }}
+                    >
+                      削除する
+                    </MenuItem>
+                    </Menu>
+                </>
+              ):(
+                <></>
+              )
+          })
+          }
               </CardContent>
             </Card>
   )

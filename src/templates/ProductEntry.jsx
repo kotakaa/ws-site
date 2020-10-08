@@ -57,10 +57,8 @@ const ProductEntry = () => {
                 (data === null) ? (
                   <></>
                 ):(
-                  data.length > 0 ? (
+                  data.length > 0 && (
                     data.map(product => <EntryListItem key={ product.id } product={ product }/>)
-                  ) : (
-                    <></>
                   )
                 )
               }

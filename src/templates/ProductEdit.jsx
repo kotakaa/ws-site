@@ -144,13 +144,13 @@ const ProductEdit = () => {
   ]
 
   const areas = [
-    {id: "hokkaidoRegion", name: "北海道地方"},
-    {id: "tohokuRegion", name: "東北地方"},
-    {id: "kanntouRegion", name: "関東地方"},
-    {id: "chubuRegion", name: "中部地方"},
-    {id: "kinkiRegion", name: "近畿地方"},
-    {id: "chugokuRegion", name: "中国地方"},
-    {id: "kyusyuRegion", name: "九州地方"},
+    {id: "北海道地方", name: "北海道地方"},
+    {id: "東北地方", name: "東北地方"},
+    {id: "関東地方", name: "関東地方"},
+    {id: "中部地方", name: "中部地方"},
+    {id: "近畿地方", name: "近畿地方"},
+    {id: "中国地方", name: "中国地方"},
+    {id: "九州地方", name: "九州地方"},
   ]
 
   useEffect(() => {
