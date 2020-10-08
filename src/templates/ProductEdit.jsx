@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { TextInput, SelectBox, PrimaryButton } from '../components/UIkit';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveProduct } from '../reducks/products/operations';
 import { db } from '../firebase/index';
 import { ImageArea } from '../components/Products';
 import { makeStyles } from '@material-ui/core';
+import { getUserId } from '../reducks/users/selectors';
 
 const useStyles = makeStyles({
   formControl: {
@@ -17,6 +18,8 @@ const useStyles = makeStyles({
 const ProductEdit = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const selector = useSelector((state) => state)
+  const uid = getUserId(selector)
 
   const errorMessage = (images, name, description, address, url, type, style, number, price, area) => {
   // imagearea
@@ -74,7 +77,7 @@ const ProductEdit = () => {
   
   // 全部入力されたら
   if (images.length > 0 && name !== "" && description !== "" && address !== "" && url !== "" && type !== "" && style !== "" && number !== "" && price !== "" && area !== ""){
-    dispatch(saveProduct(id, images, name, description, address, url, type, style, number, price, area))
+    dispatch(saveProduct(id, images, name, description, address, url, type, style, number, price, area, uid))
   }
 }
 

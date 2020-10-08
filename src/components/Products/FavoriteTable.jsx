@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   }
 })
 
-const FavoriteTable = (props) => {
+const FavoriteTable = () => {
   const classes = useStyles();
   const selector = useSelector((state) => state);
   const uid = getUserId(selector)
@@ -54,7 +54,6 @@ const FavoriteTable = (props) => {
 
         if (liked === false) {
           favoriteRef.set(addFavorite, {merge: true})
-          console.log("a");
           setLike(true)
         }else if(liked === true) {
           return(

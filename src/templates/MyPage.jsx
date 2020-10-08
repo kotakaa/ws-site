@@ -1,30 +1,46 @@
-import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {PrimaryButton, TextDetail} from "../components/UIkit";
-import {getUsername} from "../reducks/users/selectors";
-import {push} from "connected-react-router";
+import React, {useEffect} from 'react';
+import {useSelector} from "react-redux";
+import {TextDetail} from "../components/UIkit";
+import { getUserId } from "../reducks/users/selectors";
+import { db } from '../firebase';
+import { useState } from 'react';
 
 const MyPage = () => {
-    const dispatch = useDispatch();
     const selector = useSelector((state) => state);
-    const username = getUsername(selector);
+    const uid = getUserId(selector);
 
-    const transition = useCallback((path) => {
-        dispatch(push(path))
-    }, []);
+    const [data, setData] = useState("");
+
+    useEffect(() => {
+        db.collection("users").doc(uid).get()
+            .then(doc => {
+                const data = doc.data()
+                setData(data)
+            })
+    },[])
 
     return (
-        <section className="c-section-container">
-            <h2 className="u-text__headline u-text-center">マイページ</h2>
-            <div className="module-spacer--medium" />
-            <TextDetail label="ユーザー名" value={username} />
-            <TextDetail label="メールアドレス" value={username} />
-            <div className="module-spacer--small" />
-            <div className="center">
-                <PrimaryButton label={"式場の編集"} onClick={() => transition('/user/payment/edit')} />
-                <PrimaryButton label={"注文履歴の確認"} onClick={() => transition('/order/history')}/>
-            </div>
-        </section>
+    <>
+        {(data.role === 'admin') ? 
+            <section className="c-section-container">
+                <h2 className="u-text__headline u-text-center">式場プロフィール</h2>
+                <div className="module-spacer--medium" />
+                <TextDetail label="会員ステータス" value="管理者" />
+                <TextDetail label="会社名" value={data.username} />
+                <TextDetail label="メールアドレス" value={data.email} />
+                <div className="module-spacer--small" />
+            </section>
+        :
+            <section className="c-section-container">
+                <h2 className="u-text__headline u-text-center">ユーザープロフィール</h2>
+                <div className="module-spacer--medium" />
+                <TextDetail label="会員ステータス" value="会員ユーザー" />
+                <TextDetail label="ユーザー名" value={data.username} />
+                <TextDetail label="メールアドレス" value={data.email} />
+                <div className="module-spacer--small" />
+            </section>
+        }
+    </>
     );
 };
 

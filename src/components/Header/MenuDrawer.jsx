@@ -6,8 +6,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import {makeStyles} from '@material-ui/core/styles';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import HouseIcon from '@material-ui/icons/House';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import IconButton from "@material-ui/core/IconButton";
-import CheckIcon from '@material-ui/icons/Check';
+import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
+import EditIcon from '@material-ui/icons/Edit';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import SearchIcon from "@material-ui/icons/Search";
 import PersonIcon from '@material-ui/icons/Person';
@@ -59,7 +64,7 @@ const MenuDrawer = (props) => {
   const [styleOpen, setStyleOpen] = useState(true);
   const [typeOpen, setTypeOpen] = useState(true);
 
-
+console.log(role);
   const styleHandleClick = () => {
     setStyleOpen(!styleOpen);
   };
@@ -80,22 +85,67 @@ const MenuDrawer = (props) => {
 
   const menus = [
     { func: selectMenu, 
-      label: "式場登録",
-      icon: <ControlPointIcon />,
-      id: "register",
-      value: "/product/edit"
+      label: "トップページに戻る",
+      icon: <ArrowBackIosIcon />,
+      id: "top",
+      value: "/"
     },
     { func: selectMenu, 
-      label: "費用チェック",
-      icon: <CheckIcon />,
-      id: "cost",
-      value: "/step"
+      label: "式場一覧",
+      icon: <ListAltIcon />,
+      id: "list",
+      value: "/product"
+    },
+    { func: selectMenu, 
+      label: "お気に入りリスト",
+      icon: <FavoriteBorderIcon />,
+      id: "register",
+      value: "/favorite"
     },
     { func: selectMenu, 
       label: "プロフィール",
       icon: <PersonIcon />,
       id: "profile",
       value: "/user/mypage"
+    },
+    { func: selectMenu, 
+      label: "費用チェックリスト",
+      icon: <DoneOutlineIcon />,
+      id: "cost",
+      value: "/step"
+    }
+  ]
+
+  const adminMenus = [
+    { func: selectMenu, 
+      label: "トップページに戻る",
+      icon: <ArrowBackIosIcon />,
+      id: "top",
+      value: "/"
+    },
+    { func: selectMenu, 
+      label: "式場一覧",
+      icon: <ListAltIcon />,
+      id: "list",
+      value: "/product"
+    },
+    { func: selectMenu, 
+      label: "式場登録",
+      icon: <ControlPointIcon />,
+      id: "register",
+      value: "/product/edit"
+    },
+    { func: selectMenu, 
+      label: "式場プロフィール",
+      icon: <HouseIcon />,
+      id: "profile",
+      value: "/user/mypage"
+    },
+    { func: selectMenu, 
+      label: "登録した式場",
+      icon: <EditIcon />,
+      id: "entry",
+      value: "/product/entry"
     }
   ]
 
@@ -165,14 +215,26 @@ const MenuDrawer = (props) => {
         <div className="module-spacer--extra-small" />
         <Divider />
         <List>
-          { menus.map(menu => (
-            <ListItem button key={menu.id} onClick={(event) => menu.func(event, menu.value)}>
-              <ListItemIcon>
-                {menu.icon}
-              </ListItemIcon>
-              <ListItemText primary={menu.label} />
-            </ListItem>
-          ))}
+          { (role === "admin") ? (
+            adminMenus.map(menu => (
+              <ListItem button key={menu.id} onClick={(event) => menu.func(event, menu.value)}>
+                <ListItemIcon>
+                  {menu.icon}
+                </ListItemIcon>
+                <ListItemText primary={menu.label} />
+              </ListItem>
+            ))
+          ) : (
+            menus.map(menu => (
+              <ListItem button key={menu.id} onClick={(event) => menu.func(event, menu.value)}>
+                <ListItemIcon>
+                  {menu.icon}
+                </ListItemIcon>
+                <ListItemText primary={menu.label} />
+              </ListItem>
+            ))
+          )}
+
           <ListItem 
             button key="logout" 
             onClick={() => dispatch(signOut())}

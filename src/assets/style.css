@@ -17,12 +17,14 @@
   background-image: url(./img/src/wedding-1.jpeg);
   min-height: 790px;
   background-size:  cover;
+  background-position: center;
 }
 .back-ground-top {
   background-image: url(./img/src/wedding-2.jpg);
   height: 100vh;
   width: 100%;
   background-size:  cover;
+  background-position: center;
 }
 
 /*********** Section ***********/

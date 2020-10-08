@@ -52,25 +52,30 @@ const ProductDetail = () => {
   const path = selector.router.location.pathname
   const id = path.split('/product/detail/')[1]
   const [product, setProduct] = useState(null);
-  const [cost, setCost] = useState(null);
+  const [cost, setCost] = useState("");
   const dispatch = useDispatch()
 
   useEffect(() => {
     db.collection('products').doc(id).get()
       .then(doc => {
         const data = doc.data()
-        setProduct(data)
-        if (data.costId !== "") {
-          const costId = data.costId
-          setCost(costId)
+        if (typeof data === 'undefined') {
+          setProduct(null)
+        }else{
+          setProduct(data)
+        }
+        if (typeof data !== 'undefined') {
+          if (data.costId !== "") {
+            const costId = data.costId
+            setCost(costId)
+          }
         }
       })
   },[])
 
-
   return(
     <section className="c-section-detail">
-      { product && (
+      { product ? (
         <div className="p-grid__row">
           <div className={classes.sliderBox}>
             <ImageSwiper images={ product.images }/>
@@ -85,10 +90,18 @@ const ProductDetail = () => {
             />
               {
                 (role === "admin") ? (
-                  <PrimaryButton
-                    label={ "費用チェックを登録する" }
-                    onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit'))}
-                  />
+                  (cost === null || typeof cost === 'undefined') ? (
+                    <PrimaryButton
+                      label={ "費用チェックを登録する" }
+                      onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit'))}
+                    />
+                  ):(
+                    <PrimaryButton
+                      label={ "費用チェックを編集する" }
+                      onClick={() => dispatch(push('/product/'+ product.id + '/cost/edit/' + cost ))}
+                    />
+                    
+                  )
                 ):(
                   <PrimaryButton
                     label={ "費用チェックをする" }
@@ -98,6 +111,8 @@ const ProductDetail = () => {
               }
           </div>
         </div>
+      ):(
+        <h1>データが見つかりませんでした。削除された可能性があります。</h1>
       )}
     </section>
   )

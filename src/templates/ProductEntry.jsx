@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import List from '@material-ui/core/List';
 import { useDispatch, useSelector } from 'react-redux';
-import { FavoriteListItem } from '../components/Products';
+import { EntryListItem } from '../components/Products';
 import { GrayButton } from '../components/UIkit';
 import { push } from 'connected-react-router';
 import { makeStyles } from '@material-ui/core';
@@ -18,48 +18,55 @@ const useStyles = makeStyles({
   }
 })
 
-const FavoriteList = () => {
+const ProductEntry = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const selector = useSelector((state) => state);
   const uid = getUserId(selector)
 
-  const [favorite, setFavorite] = useState(null);
+  const [data, setData] = useState("");
 
   const backToHome = useCallback(() => {
     dispatch(push('/product'))
   },[])
 
   useEffect(() => {
-    db.collection("users").doc(uid).collection("favorite").get().then(function(querySnapshot) {
+    db.collection("users").doc(uid).collection("products").get().then(function(querySnapshot) {
       const data = querySnapshot.docs.map(function(doc) {
         return doc.data()
       })
-      setFavorite(data)
+      setData(data)
     })
   },[])
 
-  console.log(favorite);
+  console.log(data);
+
 
   return(
     <section className="c-section-wrapin">
       <div className="main">
         <h2 className="u-text__headline">
-          お気に入りリスト
+          登録した式場
         </h2>
-        <List className={classes.root}>
-          {
-            (favorite === null) ? (
-              <></>
-            ):(
-              favorite.length > 0 ? (
-                favorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
-              ) : (
-                <></>
-              )
-            )
-          }
-        </List>
+        {
+          data.length === 0 ? (
+            <h1>登録した式場はありません</h1>
+          ):(
+            <List className={classes.root}>
+              {
+                (data === null) ? (
+                  <></>
+                ):(
+                  data.length > 0 ? (
+                    data.map(product => <EntryListItem key={ product.id } product={ product }/>)
+                  ) : (
+                    <></>
+                  )
+                )
+              }
+            </List>
+          )
+        }
         <div className="module-spacer--medium" />
         <div className="p-grid__column">
           <GrayButton
@@ -72,4 +79,4 @@ const FavoriteList = () => {
   )
 }
 
-export default FavoriteList;
+export default ProductEntry;

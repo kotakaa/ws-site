@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -12,8 +12,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import NoImage from "../../assets/img/src/no_image.png";
 import { push } from "connected-react-router";
 import { deleteProducts } from "../../reducks/products/operations";
-import { getRole } from "../../reducks/users/selectors";
+import { getRole, getUserId } from "../../reducks/users/selectors";
 import LazyLoad from 'react-lazyload'
+import { useEffect } from 'react';
+import { db } from '../../firebase';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,8 +70,10 @@ const ProductCard = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const selector = useSelector((state) => state)
+  const uid = getUserId(selector)
   const role = getRole(selector)
 
+  const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -79,63 +83,72 @@ const ProductCard = (props) => {
     setAnchorEl(null)
   }
 
+  useEffect(() => {
+    db.collection("users").doc(uid).collection("products").get().then(function(querySnapshot) {
+      const data = querySnapshot.docs.map(function(doc) {
+        return doc.data()
+      })
+      setData(data)
+    })
+  },[])
+
+
+
+
+  if (data === null) {
+    return(
+      <></>
+    )
+  }
+
   const images = (props.images.length > 0) ? props.images : [NoImage];
   return(
     <Card className={classes.root}>
-      <LazyLoad height="656" width="233" once>
-      <CardMedia 
-        className={classes.media}
-        image={images[0].path}
-        title=""
-        onClick={() => dispatch(push('/product/detail/'+ props.id))}
-      />
-      </LazyLoad>
-      <CardContent className={classes.content}>
-        <div onClick={() => dispatch(push('/product/detail/'+ props.id))}>
-        <Typography color="textSecondary" component="p">
-          {props.name}
-        </Typography>
-        <Typography component="p" className={classes.price}>
-          {price}
-        </Typography>
-        </div>
-        {
-          (role === "admin") ? (
-          <>
-            <IconButton className={classes.icon} onClick={handleClick}>
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem
-                onClick={() => {
-                  dispatch(push('/product/edit/'+ props.id))
-                  handleClose()
-                }}
-              >    
-                編集する
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  dispatch(deleteProducts(props.id))
-                  handleClose()
-              }}
+              <LazyLoad height="656" width="233" once>
+              <CardMedia 
+                className={classes.media}
+                image={images[0].path}
+                title=""
+                onClick={() => dispatch(push('/product/detail/'+ props.id))}
+              />
+              </LazyLoad>
+              <CardContent className={classes.content}>
+                <div onClick={() => dispatch(push('/product/detail/'+ props.id))}>
+                <Typography color="textSecondary" component="p">
+                  {props.name}
+                </Typography>
+                <Typography component="p" className={classes.price}>
+                  {price}
+                </Typography>
+                </div>
+              <IconButton className={classes.icon} onClick={handleClick}>
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
               >
-                削除する
-              </MenuItem>
-            </Menu>
-          </>
-          ):(
-            <></>
-          )
-        }
-        
-      </CardContent>
-    </Card>
+                <MenuItem
+                  onClick={() => {
+                    dispatch(push('/product/edit/'+ props.id))
+                    handleClose()
+                  }}
+                >    
+                  編集する
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    dispatch(deleteProducts(props.id, uid))
+                    handleClose()
+                }}
+                >
+                  削除する
+                </MenuItem>
+              </Menu>
+              </CardContent>
+            </Card>
   )
 }
 

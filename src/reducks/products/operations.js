@@ -35,7 +35,7 @@ export const fetchProducts = (type, style) => {
   }
 }
 
-export const saveProduct = (id, images, name, description, address, url, type, style, number, price, area) => {
+export const saveProduct = (id, images, name, description, address, url, type, style, number, price, area, uid) => {
   return async (dispatch) => {
       const timestamp = FirebaseTimestamp.now();
 
@@ -53,12 +53,24 @@ export const saveProduct = (id, images, name, description, address, url, type, s
         updated_at: timestamp
       }
 
-      if (id === "") {
-          const ref = productsRef.doc()
-          data.created_at = timestamp;
-          id = ref.id;
-          data.id = id;
+      const hallProductData = {
+        name: name,
+        images: images,
+        address: address
       }
+
+      if (id === "") {
+        const ref = productsRef.doc()
+        data.created_at = timestamp;
+        id = ref.id;
+        data.id = id;
+        hallProductData.id = id
+      }
+
+      const hallProductRef = db.collection('users').doc(uid).collection('products').doc()
+      const pid = hallProductRef.id;
+      hallProductData.userProductId = pid
+      hallProductRef.set(hallProductData, {merge: true})
 
       return productsRef.doc(id).set(data, {merge: true})
           .then(() => {
@@ -165,9 +177,10 @@ export const saveCost = (
 }
 
 
-export const deleteProducts = (id) => {
+export const deleteProducts = (id, uid) => {
   return async (dispatch, getState) => {
     productsRef.doc(id).delete()
+    // db.collection('users').doc(uid).collection('products')
       .then(() => {
         const prevProducts = getState().products.list;
         const nextProducts = prevProducts.filter(product => product.id !== id)
@@ -176,78 +189,3 @@ export const deleteProducts = (id) => {
   }
 }
 
-export const orderProduct = (productsInCart, amount) => {
-  return async (dispatch, getState) => {
-    const uid = getState().users.uid;
-    const userRef = db.collection('users').doc(uid);
-    const timestamp = FirebaseTimestamp.now();
-    
-    let products = [],
-        soldOutProducts = [];
-    const batch = db.batch();
-
-    for (const product of productsInCart) {
-      const snapshot = await productsRef.doc(product.productId).get();
-      const sizes = snapshot.data().sizes;
-
-      const updatedSizes = sizes.map(size => {
-        if (size.size === product.size) {
-          if (size.quantity === 0) {
-            soldOutProducts.push(product.name)
-            return size
-          }
-          return {
-            size: size.size,
-            quantity: size.quantity - 1
-          }
-        } else {
-          return size
-        }
-      }) 
-      products.push({
-        id: product.productId,
-        images: product.images,
-        name: product.name,
-        price: product.price,
-        size: product.size
-      });
-
-      batch.update(
-        productsRef.doc(product.productId),
-        {sizes: updatedSizes}
-      )
-      batch.delete(
-        userRef.collection('cart').doc(product.cartId)
-      )
-    }
-    if (soldOutProducts.length > 0) {
-      const errorMessage = (soldOutProducts.length > 1) ?
-                            soldOutProducts.join('と') :
-                            soldOutProducts[0];
-      alert(errorMessage + 'が在庫切れのため購入をやり直してください')
-      return false
-    } else {
-      batch.commit()
-        .then(() => {
-          const orderRef = userRef.collection('orders').doc();
-          const date = timestamp.toDate()
-          const shippingDate = FirebaseTimestamp.fromDate(new Date(date.setDate(date.getDate() + 3)))
-
-          const history = {
-            amount: amount,
-            created_at: timestamp,
-            updated_at: timestamp,
-            id: orderRef.id,
-            products: products,
-            shipping_date: shippingDate
-          }
-
-          orderRef.set(history);
-          dispatch(push('/order/complete'))
-        }).catch(() => {
-          alert('注文処理に失敗しました。通信環境をお確かめのうえ、もう一度お試しください')
-          return false
-        })
-    }
-  }
-}
