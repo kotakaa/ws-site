@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { db } from '../firebase/index';
-import { getUserId } from '../reducks/users/selectors';
+import { useDispatch, useSelector } from 'react-redux'
+import { db } from '../firebase'
+import { getUserId } from '../reducks/users/selectors'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -25,15 +25,16 @@ const useStyles = makeStyles({
 });
 
 
-const CostResult = () => {
-  const dispatch = useDispatch()
+const CostResultDetail = () => {
   const classes = useStyles();
-  const [costResult, setCostResult] = useState([]);
+  const dispatch = useDispatch();
   const selector = useSelector((state) => state)
   const uid = getUserId(selector)
   const path = selector.router.location.pathname
-  const costsId = path.split('/')[2]
+  const costsId = path.split('/')[3]
+  const [costResult, setCostResult] = useState([]);
 
+console.log(costsId);
   useEffect(() => {
     db.collection('users').doc(uid).collection('costs').doc(costsId).get()
       .then(doc => {
@@ -130,16 +131,14 @@ const CostResult = () => {
             <TableCell component="th" scope="row">サービス料</TableCell>
             <TableCell align="right">{costResult.tax}%</TableCell>
           </TableRow>
-
         </TableBody>
       </Table>
+      <div className="center">
+        <PrimaryButton label={ "式場一覧に戻る" } onClick={() => dispatch(push("/product"))}/>
+      </div>
     </TableContainer>
-
-    <div className="center">
-      <PrimaryButton label={ "式場一覧に戻る" } onClick={() => dispatch(push("/product"))}/>
-    </div>
     </>
   )
 }
 
-export default CostResult;
+export default CostResultDetail;

@@ -111,7 +111,7 @@ const MenuDrawer = (props) => {
       label: "費用チェックリスト",
       icon: <DoneOutlineIcon />,
       id: "cost",
-      value: "/step"
+      value: "/resultlist"
     }
   ]
 

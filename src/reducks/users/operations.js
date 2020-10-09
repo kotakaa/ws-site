@@ -183,7 +183,7 @@ export const adminSignUp = (username, email, password, confirmPassword) => {
   }
 }
 
-export const costResult = (value, dress, snap, movie, bouquet, makeAndDressing, dish, number, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee) => {
+export const costResult = (productName, image, value, dress, snap, movie, bouquet, makeAndDressing, dish, number, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee) => {
   return async (dispatch, getState) => {
     const timestamp = FirebaseTimestamp.now()
     const Value = value.substring(5)
@@ -210,6 +210,8 @@ export const costResult = (value, dress, snap, movie, bouquet, makeAndDressing, 
 
     const addResult = {
       result: result,
+      productName: productName,
+      productImage: image,
       updated_at: timestamp,
       value: Number(Value),
       dress: Number(Dress),

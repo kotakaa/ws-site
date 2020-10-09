@@ -36,25 +36,35 @@ const StepForm = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [cost, setCost] = useState("");
+  const [product, setProduct] = useState("");
   const [activeStep, setActiveStep] = useState(0);
+  const [image, setImage] = useState("");
   const steps = getSteps();
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
 
   const productId = path.split('/')[2]
   const id = path.split('/')[4]
-
   useEffect(() => {
     db.collection('products').doc(productId).collection('cost').doc(id).get()
       .then(doc => {
         const data = doc.data()
         setCost(data)
       })
+    db.collection('products').doc(productId).get()
+      .then(doc => {
+        const data = doc.data()
+        setProduct(data)
+        setImage(data.images[0].path)
+      })
   },[])
+
+
 
   const weddingFee = cost.weddingFee
   const tax = cost.tax
   const venueUsageFee = cost.venueUsageFee
+
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -268,7 +278,7 @@ const StepForm = () => {
       case 2: 
         return(
             <Button 
-              onClick={() => dispatch(costResult(value, dress, snap, movie, bouquet, makeAndDressing, dish, number, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee))} 
+              onClick={() => dispatch(costResult(product.name, image, value, dress, snap, movie, bouquet, makeAndDressing, dish, number, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee))} 
               variant="contained" 
               color="primary">
               費用をチェックする
