@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { push } from 'connected-react-router';
 import { Button } from '@material-ui/core';
+import { PrimaryButton } from '../components/UIkit';
 
 const useStyles = makeStyles({
   table: {
@@ -136,8 +137,7 @@ const CostResult = () => {
     </TableContainer>
 
     <div className="center">
-      <Button onClick={() => dispatch(push("/product"))}>式場一覧に戻る</Button>
-      <Button onClick={() => dispatch(push("/product"))} variant="contained" color="primary">保存する</Button>
+      <PrimaryButton label={ "式場一覧に戻る" } onClick={() => dispatch(push("/product"))}/>
     </div>
     </>
   )

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ProductCard } from '../components/Products';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../reducks/products/operations';
+import { fetchProducts, fetchRegion } from '../reducks/products/operations';
 import { getProducts } from '../reducks/products/selectors';
 import Pagination from "material-ui-flat-pagination";
 
@@ -16,9 +16,14 @@ const ProductList = () => {
   const query = selector.router.location.search;
   const type = /^\?type=/.test(query) ? query.split('?type=')[1] : "";
   const style = /^\?style=/.test(query) ? query.split('?style=')[1] : "";
+  const region = /^\?region=/.test(query) ? query.split('?region=')[1] : "";
 
   useEffect(() => {
     dispatch(fetchProducts(type, style))
+  },[query]);
+
+  useEffect(() => {
+    dispatch(fetchRegion(region))
   },[query]);
 
   const handleClickPagination = (offset) => {

@@ -35,6 +35,23 @@ export const fetchProducts = (type, style) => {
   }
 }
 
+export const fetchRegion = (region) => {
+  return async (dispatch) => {
+    let query = productsRef.orderBy('updated_at', 'desc')
+    query = (region !== "") ? query.where('area', '==', region) : query;
+
+      query.get()
+        .then(snapshots => {
+          const productList = []
+          snapshots.forEach(snapshot => {
+            const product = snapshot.data()
+            productList.push(product)
+          })
+          dispatch(fetchProductsAction(productList))
+        })
+  }
+}
+
 export const saveProduct = (id, images, name, description, address, url, type, style, number, price, area, uid) => {
   return async (dispatch) => {
       const timestamp = FirebaseTimestamp.now();

@@ -18,6 +18,7 @@
   min-height: 790px;
   background-size:  cover;
   background-position: center;
+  text-align: center;
 }
 .back-ground-top {
   background-image: url(./img/src/wedding-2.jpg);
@@ -38,6 +39,10 @@
 
 .main {
   margin-top: 80px !important;
+}
+
+.wedding-logo{
+  width: 160px;
 }
 
 .c-section-detail {
@@ -79,10 +84,10 @@
 
 .c-section-main {
   background-color: rgba(255, 255, 255, 0.815);
-  max-width: 400px;
+  max-width: 500px;
   padding: 40px;
   display: inline-block;
-  margin: 90px 0 0 90px;
+  margin-top: 90px;
 }
 
 .c-section__loading {
@@ -212,6 +217,18 @@
   margin-left: 10px;
 }
 
+.after-button {
+  color: #444;
+  background-color: #fff;
+  width: 170px;
+  height: 38px;
+  font-size: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  padding: 5px 15px;
+  outline: #4dd0e1;
+  border-radius: 4px;
+}
+
 @media screen and (min-width: 576px) {
   /*********** Module Spacer ***********/
   .module-spacer--extra-extra-small {
@@ -234,5 +251,54 @@
   /*********** Module Spacer ***********/
   .module-spacer--medium {
       height: 48px
+  }
+}
+
+@media screen and (max-width:535px) {
+  .back-ground-top {
+    background-image: url(./img/src/wedding-2-sp.jpg);
+    height: 100vh;
+    width: 100%;
+    background-size:  cover;
+    background-position: center;
+  }
+
+  .c-section-main {
+    max-width: 300px;
+    padding: 20px;
+  }
+  
+  .c-section-toppage {
+    padding: 40px;
+    margin: 250px 0 50px;
+  }
+
+  .c-margin-left {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+  .wedding-logo{
+    width: 130px;
+  }
+
+  .after-button {
+    width: 80px !important;
+    font-size: 9px !important;
+    padding: 5px 1px !important;
+  }
+
+}
+
+.hedder-left{
+  margin-left: 5px;
+}
+
+@media screen and (max-width:330px) {
+  .wedding-logo{
+    width: 100px;
+  }
+  .hedder-left{
+    margin-left: 0px;
   }
 }

@@ -39,6 +39,10 @@ const FavoriteList = () => {
     })
   },[])
 
+  if (favorite === null) {
+    return <></>
+  }
+
 
   return(
     <section className="c-section-wrapin">
@@ -52,12 +56,8 @@ const FavoriteList = () => {
           ):(
             <List className={classes.root}>
               {
-                (favorite === null) ? (
-                  <></>
-                ):(
-                  favorite.length > 0 && (
-                    favorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
-                  )
+                favorite.length > 0 && (
+                  favorite.map(product => <FavoriteListItem key={ product.favoriteId } product={ product }/>)
                 )
               }
             </List>

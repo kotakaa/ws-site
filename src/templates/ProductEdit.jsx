@@ -107,6 +107,7 @@ const ProductEdit = () => {
         [price, setPrice] = useState(""),
         [isPrice, setIsPrice] = useState(false),
         [area, setArea] = useState(""),
+        [areas, setAreas] = useState([]),
         [isArea, setIsArea] = useState(false);
   
   const inputName = useCallback((event) => {
@@ -143,16 +144,6 @@ const ProductEdit = () => {
     {id: "overFiveMillion", name: "500万以上"},
   ]
 
-  const areas = [
-    {id: "北海道地方", name: "北海道地方"},
-    {id: "東北地方", name: "東北地方"},
-    {id: "関東地方", name: "関東地方"},
-    {id: "中部地方", name: "中部地方"},
-    {id: "近畿地方", name: "近畿地方"},
-    {id: "中国地方", name: "中国地方"},
-    {id: "九州地方", name: "九州地方"},
-  ]
-
   useEffect(() => {
     db.collection('styles').orderBy('order', 'asc').get()
       .then(snapshots => {
@@ -178,6 +169,19 @@ const ProductEdit = () => {
         })
       })
       setTypes(list)
+    })
+
+    db.collection('areas').orderBy('order', 'asc').get()
+    .then(snapshots => {
+      const list = [];
+      snapshots.forEach(snapshot => {
+        const data = snapshot.data()
+        list.push({
+          id: data.id,
+          name: data.name
+        })
+      })
+      setAreas(list)
     })
   },[])
 

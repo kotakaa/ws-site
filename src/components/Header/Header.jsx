@@ -53,7 +53,8 @@ const Header = () => {
         <AppBar position="fixed" className={classes.memuBar}>
           <Toolbar className={classes.toolBar}>
             <img 
-              src={logo} alt="yuuka logo" width="160px"
+              src={logo} alt="logo" 
+              className="wedding-logo"
             />
           </Toolbar>
         </AppBar>
@@ -69,7 +70,8 @@ const Header = () => {
         <AppBar position="fixed" className={classes.memuBar}>
           <Toolbar className={classes.toolBar}>
             <img 
-              src={logo} alt="yuuka logo" width="160px"
+              src={logo} alt="logo"
+              className="wedding-logo"
               onClick={() => dispatch(push('/product'))}
             />
             
@@ -85,7 +87,8 @@ const Header = () => {
         <AppBar position="fixed" className={classes.memuBar}>
           <Toolbar className={classes.toolBar}>
             <img 
-              src={logo} alt="yuuka logo" width="160px"
+              src={logo} alt="logo"
+              className="wedding-logo"
               onClick={() => dispatch(push('/'))}
             />
               <div className={classes.iconButtons}>

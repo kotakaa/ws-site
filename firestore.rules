@@ -33,5 +33,9 @@ service cloud.firestore {
       allow read: if request.auth.uid != null;
       allow write: if request.auth.uid != null;
     }
+    match /areas/{areaId} {
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null;
+    }
   }
 }

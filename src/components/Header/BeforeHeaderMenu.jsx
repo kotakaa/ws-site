@@ -8,19 +8,16 @@ const BeforeHeaderMenu = () => {
   const dispatch = useDispatch();
   return(
     <>
-      <div>
-      <WhiteButton 
+      <button
         onClick={() => dispatch(push("/admin/signup"))}
-        label={"企業様はこちら"}
-      />
-      <div className="c-margin-left"> 
-        <WhiteButton 
+        className="after-button"
+      >企業様はこちら</button>
+      <span className="hedder-left">
+        <button 
           onClick={() => dispatch(push("/signin"))}
-          label={"SIGN IN"}
-          startIcon={<LockOpenIcon />}
-        />
-      </div>
-      </div>
+          className="after-button"
+        >ログイン</button>
+      </span>
     </>
   )
 }
