@@ -39,8 +39,6 @@ const ProductEntry = () => {
     })
   },[])
 
-  console.log(data);
-
 
   return(
     <section className="c-section-wrapin">

@@ -37,7 +37,6 @@ const FixedCost = () => {
         setCostResult(data)
       })
   },[])
-  console.log(costResult);
   return (
     <>
     <TableContainer component={Paper}>

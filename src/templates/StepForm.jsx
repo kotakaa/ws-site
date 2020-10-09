@@ -105,7 +105,6 @@ const StepForm = () => {
         [gift, setGift] = useState(""),
         [isGift, setIsGift] = useState(false);
 
-  console.log(value, number ,dress, snap, movie, bouquet, makeAndDressing, dish, cake, flowerDecoration, staging, gift, weddingFee, tax, venueUsageFee);
   const handleChange = (event) => {
     setRadio(event.target.value);
   };

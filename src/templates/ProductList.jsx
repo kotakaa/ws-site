@@ -19,11 +19,7 @@ const ProductList = () => {
   const region = /^\?region=/.test(query) ? query.split('?region=')[1] : "";
 
   useEffect(() => {
-    dispatch(fetchProducts(type, style))
-  },[query]);
-
-  useEffect(() => {
-    dispatch(fetchRegion(region))
+    dispatch(fetchProducts(type, style, region))
   },[query]);
 
   const handleClickPagination = (offset) => {

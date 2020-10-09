@@ -34,7 +34,6 @@ const CostResultDetail = () => {
   const costsId = path.split('/')[3]
   const [costResult, setCostResult] = useState([]);
 
-console.log(costsId);
   useEffect(() => {
     db.collection('users').doc(uid).collection('costs').doc(costsId).get()
       .then(doc => {

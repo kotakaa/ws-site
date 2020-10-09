@@ -41,7 +41,6 @@ const CostResultList = () => {
   if (costData === null) {
     return <></>
   }
-console.log(costData);
   return (
     <section className="c-section-wrapin">
       <div className="main">

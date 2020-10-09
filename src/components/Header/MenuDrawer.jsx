@@ -194,7 +194,7 @@ const MenuDrawer = (props) => {
         onClose={(event) => props.onClose(event)}
         onKeyDown={(event) => props.onClose(event)}
       >
-        <div className={classes.searchField}>
+        {/* <div className={classes.searchField}>
           <TextInput 
             fullWidth={ false }
             label={ "キーワードを入力" }
@@ -210,9 +210,8 @@ const MenuDrawer = (props) => {
               onClick={() => dispatch(getProduct(keyword))}
               />
           </IconButton>
-        </div>
+        </div> */}
         <div className="module-spacer--extra-small" />
-        <Divider />
         <List>
           { (role === "admin") ? (
             adminMenus.map(menu => (

@@ -17,27 +17,11 @@ export const getProduct = (searchWord) => {
   }
 }
 
-export const fetchProducts = (type, style) => {
+export const fetchProducts = (type, style,region) => {
   return async (dispatch) => {
     let query = productsRef.orderBy('updated_at', 'desc')
     query = (type !== "") ? query.where('type', '==', type) : query;
     query = (style !== "") ? query.where('style', '==', style) : query;
-
-      query.get()
-        .then(snapshots => {
-          const productList = []
-          snapshots.forEach(snapshot => {
-            const product = snapshot.data()
-            productList.push(product)
-          })
-          dispatch(fetchProductsAction(productList))
-        })
-  }
-}
-
-export const fetchRegion = (region) => {
-  return async (dispatch) => {
-    let query = productsRef.orderBy('updated_at', 'desc')
     query = (region !== "") ? query.where('area', '==', region) : query;
 
       query.get()

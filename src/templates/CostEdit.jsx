@@ -385,7 +385,6 @@ const CostEdit = () => {
 
   useEffect(() => {
     if (id !== "" && typeof id !== 'undefined') {
-      console.log(productId, id);
       db.collection('products').doc(productId).collection('cost').doc(id).get()
         .then(snapshot => {
           const data = snapshot.data();

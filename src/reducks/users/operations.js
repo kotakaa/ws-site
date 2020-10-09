@@ -77,7 +77,6 @@ export const signIn = (email, password) => {
 
 export const signUp = (username, email, password, confirmPassword) => {
   return async (dispatch) => {
-    console.log("sign in");
 
     if (password !== confirmPassword) {
       alert("パスワードが一致しません。もう一度お試しください。")
@@ -197,7 +196,6 @@ export const costResult = (productName, image, value, dress, snap, movie, bouque
     const FlowerDecoration = flowerDecoration.substring(16)
     const Staging = staging.substring(7)
     const Gift = gift.substring(4)
-    console.log(Value, Dress,Snap, Movie, Bouquet, MakeAndDressing, Dish, Cake, FlowerDecoration, Staging, Gift);
     const uid = getState().users.uid
     const costsRef = db.collection('users').doc(uid).collection('costs').doc()
     const numberResult = number * (Number(Dish) + Number(Gift))
