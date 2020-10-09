@@ -87,7 +87,7 @@ const CostResult = () => {
           </TableRow>
 
           <TableRow>
-            <TableCell component="th" scope="row">お料理</TableCell>
+            <TableCell component="th" scope="row">お料理(一名様あたり)</TableCell>
             <TableCell align="right">{comma(costResult.dish)}</TableCell>
           </TableRow>
 
@@ -107,7 +107,7 @@ const CostResult = () => {
           </TableRow>
 
           <TableRow>
-            <TableCell component="th" scope="row">引出物</TableCell>
+            <TableCell component="th" scope="row">引出物(一名様あたり)</TableCell>
             <TableCell align="right">{comma(costResult.gift)}</TableCell>
           </TableRow>
 
@@ -133,11 +133,11 @@ const CostResult = () => {
 
         </TableBody>
       </Table>
+      <div className="center">
+        <PrimaryButton label={ "式場一覧に戻る" } onClick={() => dispatch(push("/product"))}/>
+      </div>
+      <div className="module-spacer--medium"/>
     </TableContainer>
-
-    <div className="center">
-      <PrimaryButton label={ "式場一覧に戻る" } onClick={() => dispatch(push("/product"))}/>
-    </div>
     </>
   )
 }

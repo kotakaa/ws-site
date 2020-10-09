@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { db, FirebaseTimestamp } from '../firebase/index';
+import React, { useState, useEffect } from 'react';
+import { db } from '../firebase/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { ImageSwiper, FavoriteTable } from '../components/Products';
-import { addProductToFavorite } from '../reducks/users/operations';
 import HTMLReactParser from 'html-react-parser';
-import { getProductsInFavorite, getRole, getUserId } from '../reducks/users/selectors';
+import { getRole, getUserId } from '../reducks/users/selectors';
 import { push } from 'connected-react-router';
 import { PrimaryButton } from '../components/UIkit';
+import Linkify from 'react-linkify'
 
 const useStyle = makeStyles((theme) => ({
   sliderBox: {
@@ -94,8 +94,10 @@ const ProductDetail = () => {
           <div className={classes.detail}>
             <h2 className="u-text__headline">{product.name}</h2>
             <p>{returnCodeToBr(product.description)}</p>
-            <p>{product.url}</p>
-            <p>{product.address}</p>
+            <Linkify>
+              <p>URL:{product.url}</p>
+            </Linkify>
+            <p>住所：{product.address}</p>
             <FavoriteTable 
               product={product}
             />

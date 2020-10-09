@@ -66,6 +66,7 @@ const FixedCost = () => {
         </TableBody>
       </Table>
     </TableContainer>
+    <div className="module-spacer--medium"/>
     </>
   )
 }

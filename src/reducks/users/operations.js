@@ -199,7 +199,7 @@ export const costResult = (productName, image, value, dress, snap, movie, bouque
     const uid = getState().users.uid
     const costsRef = db.collection('users').doc(uid).collection('costs').doc()
     const numberResult = number * (Number(Dish) + Number(Gift))
-    const total = numberResult + Number(Value) + Number(Dress) + Number(Snap) + Number(Movie) + Number(Bouquet) + Number(MakeAndDressing)  + Number(Cake) + Number(FlowerDecoration) + Number(Staging) + weddingFee + venueUsageFee
+    const total = numberResult + Number(Value) + Number(Dress) + Number(Snap) + Number(Movie) + Number(Bouquet) + Number(MakeAndDressing)  + Number(Cake) + Number(FlowerDecoration) + Number(Staging) + Number(weddingFee) + Number(venueUsageFee)
     // 税の計算
     const taxResult = tax * 0.01
     const totalTax = total * taxResult

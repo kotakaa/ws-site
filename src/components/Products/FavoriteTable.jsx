@@ -100,6 +100,7 @@ const FavoriteTable = () => {
         <TableBody>
               <TableRow>
                 <TableCell className={classes.iconCell}>
+                  お気に入り
                   <IconButton onClick={() => toggleLike()}>
                     {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                   </IconButton>
